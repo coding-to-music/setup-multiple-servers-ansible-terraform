@@ -1,3 +1,34 @@
+# setup-multiple-servers-ansible-terraform
+
+# 🚀 Setup multiple servers with New Users and SSH Key Auth and various software using Ansible and Terraform 🚀
+
+https://github.com/coding-to-music/setup-multiple-servers-ansible-terraform
+
+
+From / By https://github.com/mr-karan/homelab
+
+My point-in-time cloned version is https://github.com/coding-to-music/hydra
+
+This repo version is with many enhancements so is not forked, it is cloned and modified
+
+## Environment variables:
+
+```java
+edit hosts file
+```
+
+## GitHub
+
+```java
+git init
+git add .
+git remote remove origin
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:coding-to-music/setup-multiple-servers-ansible-terraform.git
+git push -u origin main
+```
+
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
