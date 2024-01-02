@@ -48,6 +48,7 @@ or with  --ask-pass
 
 If you fail at this step, you need to debug before proceeding.
 
+if Bootstrap works, then in the future omit `-u root --ask-pass`
 
 2) For Tailscale, it is recommended to generate `Pre Authorisation Keys` and encrypt them in vault:
 
