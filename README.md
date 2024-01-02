@@ -11,12 +11,6 @@ My point-in-time cloned version is https://github.com/coding-to-music/hydra
 
 This repo version is with many enhancements so is not forked, it is cloned and modified
 
-## Environment variables:
-
-```java
-edit hosts file
-```
-
 ## GitHub
 
 ```java
@@ -28,6 +22,63 @@ git branch -M main
 git remote add origin git@github.com:coding-to-music/setup-multiple-servers-ansible-terraform.git
 git push -u origin main
 ```
+
+## Environment variables:
+
+```java
+# See file terraform/env.sample
+
+DIGITALOCEAN_TOKEN=
+CLOUDFLARE_API_TOKEN=
+TF_VAR_cloudflare_caddy_api_token=
+TF_VAR_shynet_postgresql_password=
+TF_VAR_shynet_django_secret_key=
+TF_VAR_gitea_secret_key=
+TF_VAR_gitea_internal_token=
+TF_VAR_gitea_lfs_jwt_secret=
+TF_VAR_gitea_oauth2_jwt_secret=
+TF_VAR_restic_b2_account_id=
+TF_VAR_restic_b2_account_key=
+TF_VAR_restic_repository=
+TF_VAR_restic_password=
+
+# See file terraform/variables.tf
+
+# See file terraform/providers.tf
+
+# See ansible/
+
+# See file ansible/
+
+edit hosts file
+
+
+```
+
+## URL's and domain names
+
+see TODO.md
+
+the original project uses these domains:
+
+`nomad.mrkaran.dev` 
+`consul.mrkaran.dev`
+`shynet.mrkaran.dev`
+
+```java
+DOMAIN           = git.mrkaran.dev
+SSH_DOMAIN       = koadings.mrkaran.dev
+ROOT_URL         = https://git.mrkaran.dev/
+```
+
+## Ports 
+
+
+```java
+gitea
+HTTP_PORT        = 3000
+```
+
 
 <!-- PROJECT LOGO -->
 <br />
