@@ -12,6 +12,7 @@
       packages:
         - apt-transport-https
         - vim
+        - htop
         - curl
         - jq
         - fzf
