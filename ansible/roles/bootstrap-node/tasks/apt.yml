@@ -16,9 +16,9 @@
         - curl
         - jq
         - fzf
-        - python
+        # - python
         - python3-pip
-        - python-apt
+        # - python-apt
         - python3-apt
         - gnupg2
         - gnupg-agent

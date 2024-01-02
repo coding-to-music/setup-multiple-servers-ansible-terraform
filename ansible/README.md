@@ -10,6 +10,14 @@ https://docs.ansible.com/ansible/latest/getting_started/get_started_inventory.ht
 
 cat /etc/passwd
 
+# view all groups
+
+cat /etc/group
+
+# check which users have sudo abilities
+
+grep -Po '^sudo.+:\K.*$' /etc/group
+
 # check what groups your username is in
 
 groups <username>
@@ -33,6 +41,10 @@ You must ensure that `bootstrap-nodes` role is first run before continuing. It d
 the `username` supplied in `inventory` has access to SSH.
 
 **Bootstrap**: `ansible-playbook -i inventory playbook.yml --tag=bootstrap`
+
+or with  --ask-pass
+
+**Bootstrap**: `ansible-playbook -i inventory playbook.yml --tag=bootstrap -u root --ask-pass`
 
 If you fail at this step, you need to debug before proceeding.
 

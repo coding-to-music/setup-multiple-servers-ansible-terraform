@@ -1,5 +1,11 @@
 ---
 
+- name: Ensure group "docker" exists with correct gid
+  ansible.builtin.group:
+    name: docker
+    state: present
+    gid: 1750
+
 - name: Make sure we have a 'wheel' group
   group:
     name: wheel
@@ -19,6 +25,7 @@
     name: "{{username}}"
     groups:
       - wheel
+      - docker
     append: yes
     state: present
     createhome: yes
