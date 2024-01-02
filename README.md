@@ -4,7 +4,6 @@
 
 https://github.com/coding-to-music/setup-multiple-servers-ansible-terraform
 
-
 From / By https://github.com/mr-karan/homelab
 
 My point-in-time cloned version is https://github.com/coding-to-music/hydra
@@ -29,14 +28,18 @@ git push -u origin main
 # See file terraform/env.sample
 
 DIGITALOCEAN_TOKEN=
+
 CLOUDFLARE_API_TOKEN=
+
 TF_VAR_cloudflare_caddy_api_token=
+
 TF_VAR_shynet_postgresql_password=
 TF_VAR_shynet_django_secret_key=
 TF_VAR_gitea_secret_key=
 TF_VAR_gitea_internal_token=
 TF_VAR_gitea_lfs_jwt_secret=
 TF_VAR_gitea_oauth2_jwt_secret=
+
 TF_VAR_restic_b2_account_id=
 TF_VAR_restic_b2_account_key=
 TF_VAR_restic_repository=
@@ -48,10 +51,18 @@ TF_VAR_restic_password=
 
 # See ansible/
 
-# See file ansible/
+# See file ansible/README.md
 
-edit hosts file
+# See file ansible/ansible.cfg
 
+# See file ansible/Makefile
+
+# See file ansible/playbook.yml
+
+# See file ansible/Makefile
+
+# See file ansible/inventory.sample
+# See file ansible/inventory.hydra
 
 ```
 

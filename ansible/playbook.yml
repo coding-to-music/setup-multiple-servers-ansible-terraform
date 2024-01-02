@@ -16,7 +16,7 @@
       tags:
         - tailscale
 
-    - role: viasite-ansible.zsh
-      become: yes
-      tags:
-        - zsh
+    # - role: viasite-ansible.zsh
+    #   become: yes
+    #   tags:
+    #     - zsh
