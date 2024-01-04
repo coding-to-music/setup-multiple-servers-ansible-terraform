@@ -6,6 +6,12 @@ https://docs.ansible.com/ansible/latest/getting_started/get_started_inventory.ht
 
 
 ```java
+# manually set timezone
+
+sudo timedatectl set-timezone <timeszone>
+
+sudo timedatectl set-timezone America/New_York
+
 # check what users are in the system
 
 cat /etc/passwd
