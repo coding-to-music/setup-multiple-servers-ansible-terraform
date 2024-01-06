@@ -100,3 +100,4 @@ if Bootstrap works, then in the future omit `-u root --ask-pass`
 3) For InfluxDB
 
 - To run the playbook: `ansible-playbook -i inventory playbook.yml --tag=influxdb`
+
