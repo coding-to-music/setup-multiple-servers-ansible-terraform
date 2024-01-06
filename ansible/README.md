@@ -38,6 +38,22 @@ ansible myhosts -m ping -i inventory -u root --ask-pass
 
 ```
 
+### Determine what version of Ubuntu is installed
+
+```java
+lsb_release -a
+```
+
+Output
+
+```Java
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 22.04.3 LTS
+Release:        22.04
+Codename:       jammy
+```
+
 ## Running
 
 ## Imp things to keep in mind
