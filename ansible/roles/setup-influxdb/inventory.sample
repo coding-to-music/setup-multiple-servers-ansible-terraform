@@ -1,0 +1,6 @@
+myhosts:
+  hosts:
+    srv2:
+      ansible_host: <ip address goes here> 
+    srv3:
+      ansible_host: <ip address goes here> 
