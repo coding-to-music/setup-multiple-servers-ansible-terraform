@@ -38,6 +38,26 @@ ansible myhosts -m ping -i inventory -u root --ask-pass
 
 ```
 
+### install ansible-lint
+
+https://www.redhat.com/sysadmin/ansible-lint-YAML
+
+```java
+python3 -m pip install --user ansible-lint
+```
+
+Verify
+
+```java
+ansible-lint --version
+```
+
+Output
+
+```java
+ansible-lint 6.22.1 using ansible-core:2.16.2 ansible-compat:4.1.10 ruamel-yaml:0.18.5 ruamel-yaml-clib:0.2.8
+```
+
 ### Determine what version of Ubuntu is installed
 
 ```java
@@ -76,3 +96,7 @@ if Bootstrap works, then in the future omit `-u root --ask-pass`
 
 - To encrypt the string `ansible-vault encrypt_string '<AUTH-KEY>' --name 'tailscale_auth_key`
 - To run the playbook: `ansible-playbook -i inventory playbook.yml --tag=tailscale --ask-vault-pass`
+
+3) For InfluxDB
+
+- To run the playbook: `ansible-playbook -i inventory playbook.yml --tag=influxdb`
