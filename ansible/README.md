@@ -76,6 +76,12 @@ Codename:       jammy
 
 ## Running
 
+This is needed to run `local_gen`
+
+```java
+ansible-galaxy collection install community.general
+```
+
 ## Imp things to keep in mind
 
 1) `ansible_ssh_user` for the first run should `root` since there is no user in the instance.
