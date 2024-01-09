@@ -88,6 +88,22 @@ or with  --ask-pass
 
 **Bootstrap**: `ansible-playbook -i inventory playbook.yml --tag=bootstrap -u root --ask-pass`
 
+Succeeded, then ran it again, complains that I am not root and so it cant write to /etc 
+
+```java
+TASK [bootstrap-node : add ssh banner info] *******************************************************************************************************
+ok: [srv3]
+ok: [srv2]
+
+TASK [bootstrap-node : update ssh banner] *********************************************************************************************************
+fatal: [srv3]: FAILED! => {"changed": false, "checksum": "f9ecc78f4f3efb2e7e65668a0362009fbb42155d", "msg": "Destination /etc not writable"}
+fatal: [srv2]: FAILED! => {"changed": false, "checksum": "5399406a965030a7fe153df685acb9ac4029e14d", "msg": "Destination /etc not writable"}
+
+PLAY RECAP ****************************************************************************************************************************************
+srv2                       : ok=16   changed=2    unreachable=0    failed=1    skipped=2    rescued=0    ignored=0   
+srv3                       : ok=16   changed=2    unreachable=0    failed=1    skipped=2    rescued=0    ignored=0   
+```
+
 If you fail at this step, you need to debug before proceeding.
 
 if Bootstrap works, then in the future omit `-u root --ask-pass`
@@ -114,6 +130,12 @@ The offending line appears to be:
 
 - name: Ensure US locale exists
   ^ here
+```
+
+Fixed via installing 
+
+```java
+ansible-galaxy collection install community.general
 ```
 
 4) another InfluxDB playbook
