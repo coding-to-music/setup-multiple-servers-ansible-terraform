@@ -1,0 +1,49 @@
+---
+- name: Deploy InfluxDB
+  hosts: myhosts
+  become: true
+
+  tasks:
+    - name: Add InfluxDB APT GPG key
+      apt_key:
+        url: https://repos.influxdata.com/influxdb.key
+
+    - name: Add InfluxDB APT repository
+      apt_repository:
+        repo: deb https://repos.influxdata.com/ubuntu focal stable
+        state: present
+
+    - name: Install InfluxDB
+      apt:
+        name: influxdb
+        state: present
+
+    - name: Start and enable InfluxDB service
+      systemd:
+        name: influxdb
+        enabled: yes
+        state: started
+
+    - name: Wait for InfluxDB to start
+      wait_for:
+        port: 8086
+        delay: 5
+        timeout: 60
+
+    - name: Create InfluxDB admin user and database
+      influxdb_database:
+        host: localhost
+        username: root
+        password: your_influxdb_password
+        database_name: your_database_name
+        state: present
+
+    - name: Create a regular user for InfluxDB
+      influxdb_user:
+        host: localhost
+        username: root
+        password: your_influxdb_password
+        database_name: your_database_name
+        user_name: your_user_name
+        user_password: your_user_password
+        state: present

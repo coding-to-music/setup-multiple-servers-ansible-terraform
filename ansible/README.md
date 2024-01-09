@@ -101,3 +101,40 @@ if Bootstrap works, then in the future omit `-u root --ask-pass`
 
 - To run the playbook: `ansible-playbook -i inventory playbook.yml --tag=influxdb`
 
+Gives error:
+
+```java
+ERROR! couldn't resolve module/action 'locale_gen'. This often indicates a misspelling, missing collection, or incorrect module path.
+
+The error appears to be in 'ansible/roles/bootstrap-node/tasks/locale.yml': line 1, column 3, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+- name: Ensure US locale exists
+  ^ here
+```
+
+4) another InfluxDB playbook
+
+https://www.devopstricks.in/deploy-influxdb-using-ansible-on-ubuntu-22-04-lts/
+
+- To run the playbook: `ansible-playbook -i inventory deploy_influxdb.yml`
+
+Gives error:
+
+```java
+ERROR! couldn't resolve module/action 'influxdb_database'. This often indicates a misspelling, missing collection, or incorrect module path.
+
+The error appears to be in 'deploy_influxdb.yml': line 33, column 7, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+    - name: Create InfluxDB admin user and database
+      ^ here
+```
+
+
