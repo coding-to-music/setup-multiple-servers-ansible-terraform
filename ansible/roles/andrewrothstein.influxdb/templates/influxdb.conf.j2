@@ -1,0 +1,780 @@
+### Welcome to the InfluxDB configuration file.
+
+# The values in this file override the default values used by the system if
+# a config option is not specified. The commented out lines are the configuration
+# field and the default value used. Uncommenting a line and changing the value
+# will change the value used at runtime when the process is restarted.
+
+{% if 'reporting_disabled' in influxdb_config %}
+# Once every 24 hours InfluxDB will report usage data to usage.influxdata.com
+# The data includes a random ID, os, arch, version, the number of series and other
+# usage data. No data from user databases is ever transmitted.
+# Change this option to true to disable reporting.
+reporting-disabled = {{ influxdb_config.reporting_disabled | to_json }}
+{% endif %}
+
+{% if 'bind_address' in influxdb_config %}
+# Bind address to use for the RPC service for backup and restore.
+bind-address = {{ influxdb_config.bind_address | to_json }}
+{% endif %}
+
+{% if 'meta' in influxdb_config %}
+###
+### [meta]
+###
+### Controls the parameters for the Raft consensus group that stores metadata
+### about the InfluxDB cluster.
+###
+
+[meta]
+  # Where the metadata/raft database is stored
+  dir = {{ influxdb_config.meta.dir | to_json }}
+
+{% if 'retention_autocreate' in influxdb_config.meta %}
+  # Automatically create a default retention policy when creating a database.
+  retention-autocreate = {{ influxdb_config.meta.retention_autocreate | to_json }}
+{% endif %}
+
+{% if 'logging_enabled' in influxdb_config.meta %}
+  # If log messages are printed for the meta service
+  logging-enabled = {{ influxdb_config.meta.logging_enabled | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'data' in influxdb_config %}
+###
+### [data]
+###
+### Controls where the actual shard data for InfluxDB lives and how it is
+### flushed from the WAL. "dir" may need to be changed to a suitable place
+### for your system, but the WAL settings are an advanced configuration. The
+### defaults should work for most systems.
+###
+
+[data]
+  # The directory where the TSM storage engine stores TSM files.
+  dir = {{ influxdb_config.data.dir | to_json }}
+
+  # The directory where the TSM storage engine stores WAL files.
+  wal-dir = {{ influxdb_config.data.wal_dir | to_json }}
+
+{% if 'wal_fsync_delay' in influxdb_config.data %}
+  # The amount of time that a write will wait before fsyncing.  A duration
+  # greater than 0 can be used to batch up multiple fsync calls.  This is useful for slower
+  # disks or when WAL write contention is seen.  A value of 0s fsyncs every write to the WAL.
+  # Values in the range of 0-100ms are recommended for non-SSD disks.
+  wal-fsync-delay = {{ influxdb_config.data.wal_fsync_delay | to_json }}
+{% endif %}
+
+{% if 'index_version' in influxdb_config.data %}
+  # The type of shard index to use for new shards.  The default is an in-memory index that is
+  # recreated at startup.  A value of "tsi1" will use a disk based index that supports higher
+  # cardinality datasets.
+  index-version = {{ influxdb_config.data.index_version | to_json }}
+{% endif %}
+
+{% if 'trace_logging_enabled' in influxdb_config.data %}
+  # Trace logging provides more verbose output around the tsm engine. Turning
+  # this on can provide more useful output for debugging tsm engine issues.
+  trace-logging-enabled = {{ influxdb_config.data.trace_logging_enabled | to_json }}
+{% endif %}
+
+{% if 'query_log_enabled' in influxdb_config.data %}
+  # Whether queries should be logged before execution. Very useful for troubleshooting, but will
+  # log any sensitive data contained within a query.
+  query-log-enabled = {{ influxdb_config.data.query_log_enabled | to_json }}
+{% endif %}
+
+{% if 'validate_keys' in influxdb_config.data %}
+  # Validates incoming writes to ensure keys only have valid unicode characters.
+  # This setting will incur a small overhead because every key must be checked.
+  validate-keys = {{ influxdb_config.data.validate_keys | to_json }}
+{% endif %}
+
+  # Settings for the TSM engine
+{% if 'cache_max_memory_size' in influxdb_config.data %}
+  # CacheMaxMemorySize is the maximum size a shards cache can
+  # reach before it starts rejecting writes.
+  # Valid size suffixes are k, m, or g (case insensitive, 1024 = 1k).
+  # Values without a size suffix are in bytes.
+  cache-max-memory-size = {{ influxdb_config.data.cache_max_memory_size | to_json }}
+{% endif %}
+{% if 'cache_snapshot_memory_size' in influxdb_config.data %}
+  # CacheSnapshotMemorySize is the size at which the engine will
+  # snapshot the cache and write it to a TSM file, freeing up memory
+  # Valid size suffixes are k, m, or g (case insensitive, 1024 = 1k).
+  # Values without a size suffix are in bytes.
+  cache-snapshot-memory-size = {{ influxdb_config.data.cache_snapshot_memory_size | to_json }}
+{% endif %}
+{% if 'cache_snapshot_write_cold_duration' in influxdb_config.data %}
+  # CacheSnapshotWriteColdDuration is the length of time at
+  # which the engine will snapshot the cache and write it to
+  # a new TSM file if the shard hasnt received writes or deletes
+  cache-snapshot-write-cold-duration = {{ influxdb_config.data.cache_snapshot_write_cold_duration | to_json }}
+{% endif %}
+{% if 'compact_full_write_cold_duration' in influxdb_config.data %}
+  # CompactFullWriteColdDuration is the duration at which the engine
+  # will compact all TSM files in a shard if it hasnt received a
+  # write or delete
+  compact-full-write-cold-duration = {{ influxdb_config.data.compact_full_write_cold_duration | to_json }}
+{% endif %}
+{% if 'max_concurrent_compactions' in influxdb_config.data %}
+  # The maximum number of concurrent full and level compactions that can run at one time.  A
+  # value of 0 results in 50% of runtime.GOMAXPROCS(0) used at runtime.  Any number greater
+  # than 0 limits compactions to that value.  This setting does not apply
+  # to cache snapshotting.
+  max-concurrent-compactions = {{ influxdb_config.data.max_concurrent_compactions }}
+{% endif %}
+{% if 'compact_throughput' in influxdb_config.data %}
+  # CompactThroughput is the rate limit in bytes per second that we
+  # will allow TSM compactions to write to disk. Note that short bursts are allowed
+  # to happen at a possibly larger value, set by CompactThroughputBurst
+  compact-throughput = {{ influxdb_config.data.compact_throughput | to_json }}
+{% endif %}
+{% if 'compact_throughput_burst' in influxdb_config.data %}
+  # CompactThroughputBurst is the rate limit in bytes per second that we
+  # will allow TSM compactions to write to disk.
+  compact-throughput-burst = {{ influxdb_config.data.compact_throughput_burst | to_json }}
+{% endif %}
+{% if 'tsm_use_madb_willneed' in influxdb_config.data %}
+  # If true, then the mmap advise value MADV_WILLNEED will be provided to the kernel with respect to
+  # TSM files. This setting has been found to be problematic on some kernels, and defaults to off.
+  # It might help users who have slow disks in some cases.
+  tsm-use-madv-willneed = {{ influxdb_config.data.tsm_use_madv_willneed | to_json }}
+{% endif %}
+  # Settings for the inmem index
+
+{% if 'max_series_per_database' in influxdb_config.data %}
+  # The maximum series allowed per database before writes are dropped.  This limit can prevent
+  # high cardinality issues at the database level.  This limit can be disabled by setting it to
+  # 0.
+  max-series-per-database = {{ influxdb_config.data.max_series_per_database }}
+{% endif %}
+{% if 'max_values_per_tag' in influxdb_config.data %}
+  # The maximum number of tag values per tag that are allowed before writes are dropped.  This limit
+  # can prevent high cardinality tag values from being written to a measurement.  This limit can be
+  # disabled by setting it to 0.
+  max-values-per-tag = {{ influxdb_config.data.max_values_per_tag }}
+{% endif %}
+  # Settings for the tsi1 index
+
+{% if 'max_index_log_file_size' in influxdb_config.data %}
+  # The threshold, in bytes, when an index write-ahead log file will compact
+  # into an index file. Lower sizes will cause log files to be compacted more
+  # quickly and result in lower heap usage at the expense of write throughput.
+  # Higher sizes will be compacted less frequently, store more series in-memory,
+  # and provide higher write throughput.
+  # Valid size suffixes are k, m, or g (case insensitive, 1024 = 1k).
+  # Values without a size suffix are in bytes.
+  max-index-log-file-size = {{ influxdb_config.data.max_index_log_file_size | to_json }}
+{% endif %}
+{% if 'series_id_set_cache_size' in influxdb_config.data %}
+  # The size of the internal cache used in the TSI index to store previously 
+  # calculated series results. Cached results will be returned quickly from the cache rather
+  # than needing to be recalculated when a subsequent query with a matching tag key/value 
+  # predicate is executed. Setting this value to 0 will disable the cache, which may
+  # lead to query performance issues.
+  # This value should only be increased if it is known that the set of regularly used 
+  # tag key/value predicates across all measurements for a database is larger than 100. An
+  # increase in cache size may lead to an increase in heap usage.
+  series-id-set-cache-size = {{ influxdb_config.data.series_id_set_cache_size | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'coordinator' in influxdb_config %}
+###
+### [coordinator]
+###
+### Controls the clustering service configuration.
+###
+
+[coordinator]
+{% if 'write_timeout' in influxdb_config.coordinator %}
+  # The default time a write request will wait until a "timeout" error is returned to the caller.
+  write-timeout = {{ influxdb_config.coordinator.write_timeout | to_json }}
+{% endif %}
+{% if 'max_concurrent_queries' in influxdb_config.coordinator %}
+  # The maximum number of concurrent queries allowed to be executing at one time.  If a query is
+  # executed and exceeds this limit, an error is returned to the caller.  This limit can be disabled
+  # by setting it to 0.
+  max-concurrent-queries = {{ influxdb_config.coordinator.max_concurrent_queries | to_json }}
+{% endif %}
+{% if 'query_timeout' in influxdb_config.coordinator %}
+  # The maximum time a query will is allowed to execute before being killed by the system.  This limit
+  # can help prevent run away queries.  Setting the value to 0 disables the limit.
+  query-timeout = {{ influxdb_config.coordinator.query_timeout | to_json }}
+{% endif %}
+{% if 'log_Queries_after' in influxdb_config.coordinator %}
+  # The time threshold when a query will be logged as a slow query.  This limit can be set to help
+  # discover slow or resource intensive queries.  Setting the value to 0 disables the slow query logging.
+  log-queries-after = {{ influxdb_config.coordinator.log_queries_after }}
+{% endif %}
+{% if 'max_select_point' in influxdb_config.coordinator %}
+  # The maximum number of points a SELECT can process.  A value of 0 will make
+  # the maximum point count unlimited.  This will only be checked every second so queries will not
+  # be aborted immediately when hitting the limit.
+  max-select-point = {{ influxdb_config.coordinator.max_select_point | to_json }}
+{% endif %}
+{% if 'max_select_series' in influxdb_config.coordinator %}
+  # The maximum number of series a SELECT can run.  A value of 0 will make the maximum series
+  # count unlimited.
+  max-select-series = {{ influxdb_config.coordinator.max_select_series | to_json }}
+{% endif %}
+{% if 'max_select_buckets' in influxdb_config.coordinator %}
+  # The maximum number of group by time bucket a SELECT can create.  A value of zero will max the maximum
+  # number of buckets unlimited.
+  max-select-buckets = {{ influxdb_config.coordinator.max_select_buckets | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'retention' in influxdb_config %}
+###
+### [retention]
+###
+### Controls the enforcement of retention policies for evicting old data.
+###
+[retention]
+{% if 'enabled' in influxdb_config.retention %}
+  # Determines whether retention policy enforcement enabled.
+  enabled = {{ influxdb_config.retention.enabled | to_json }}
+{% endif %}
+{% if 'check_interval' in influxdb_config.retention %}
+  # The interval of time when retention policy enforcement checks run.
+  check-interval = {{ influxdb_config.retention.check_interval | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'shard_precreation' in influxdb_config %}
+###
+### [shard-precreation]
+###
+### Controls the precreation of shards, so they are available before data arrives.
+### Only shards that, after creation, will have both a start- and end-time in the
+### future, will ever be created. Shards are never precreated that would be wholly
+### or partially in the past.
+
+[shard-precreation]
+{% if 'enabled' in influxdb_config.shard_precreation %}
+  # Determines whether shard pre-creation service is enabled.
+  enabled = {{ influxdb_config.shard_precreation.enabled | to_json }}
+{% endif %}
+{% if 'check_interval' in influxdb_config.shard_precreation %}
+  # The interval of time when the check to pre-create new shards runs.
+  check-interval = {{ influxdb_config.shard_precreation.check_interval | to_json }}
+{% endif %}
+{% if 'advance_period' in influxdb_config.shard_precreation %}
+  # The default period ahead of the endtime of a shard group that its successor
+  # group is created.
+  advance-period = {{ influxdb_config.shard_precreation.advance_period | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'monitor' in influxdb_config %}
+###
+### Controls the system self-monitoring, statistics and diagnostics.
+###
+### The internal database for monitoring data is created automatically if
+### if it does not already exist. The target retention within this database
+### is called 'monitor' and is also created with a retention period of 7 days
+### and a replication factor of 1, if it does not exist. In all cases the
+### this retention policy is configured as the default for the database.
+
+[monitor]
+{% if 'store_enabled' in influxdb_config.monitor %}
+  # Whether to record statistics internally.
+  store-enabled = {{ influxdb_config.monitor.store_enabled | to_json }}
+{% endif %}
+{% if 'store_database' in influxdb_config.monitor %}
+  # The destination database for recorded statistics
+  store-database = {{ influxdb_config.monitor.store_database | to_json }}
+{% endif %}
+{% if 'store_interval' in influxdb_config.monitor %}
+  # The interval at which to record statistics
+  store-interval = {{ influxdb_config.monitor.store_interval | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'http' in influxdb_config %}
+###
+### [http]
+###
+### Controls how the HTTP endpoints are configured. These are the primary
+### mechanism for getting data into and out of InfluxDB.
+###
+
+[http]
+{% if 'enabled' in influxdb_config.http %}
+  # Determines whether HTTP endpoint is enabled.
+  enabled = {{ influxdb_config.http.enabled | to_json }}
+{% endif %}
+{%if 'flux_enabled' in influxdb_config.http %}
+  # Determines whether the Flux query endpoint is enabled.
+  flux-enabled = {{ influxdb_config.http.flux_enabled | to_json }}
+{% endif %}
+{% if 'flux_log_enabled' in influxdb_config.http %}
+  # Determines whether the Flux query logging is enabled.
+  flux-log-enabled = {{ influxdb_config.http.flux_log_enabled | to_json }}
+{% endif %}
+{% if 'bind_address' in influxdb_config.http %}
+  # The bind address used by the HTTP service.
+  bind-address = {{ influxdb_config.http.bind_address | to_json }}
+{% endif %}
+{% if 'auth_enabled' in influxdb_config.http %}
+  # Determines whether user authentication is enabled over HTTP/HTTPS.
+  auth-enabled = {{ influxdb_config.http.auth_enabled | to_json }}
+{% endif %}
+{% if 'realm' in influxdb_config.http %}
+  # The default realm sent back when issuing a basic auth challenge.
+  realm = {{ influxdb_config.http.realm | to_json }}
+{% endif %}
+{% if 'log_enabled' in influxdb_config.http %}
+  # Determines whether HTTP request logging is enabled.
+  log-enabled = {{ influxdb_config.http.log_enabled | to_json }}
+{% endif %}
+{% if 'suppress_write_log' in influxdb_config.http %}
+  # Determines whether the HTTP write request logs should be suppressed when the log is enabled.
+  suppress-write-log = {{ influxdb_config.http.suppress_write_log | to_json }}
+{% endif %}
+  # When HTTP request logging is enabled, this option specifies the path where
+  # log entries should be written. If unspecified, the default is to write to stderr, which
+  # intermingles HTTP logs with internal InfluxDB logging.
+  #
+{% if 'access_log_path' in influxdb_config.http %}
+  # If influxd is unable to access the specified path, it will log an error and fall back to writing
+  # the request log to stderr.
+  access-log-path = {{ influxdb_config.http.access_log_path | to_json }}
+{% endif %}
+{% if 'access_log_status_filters' in influxdb_config.http %}
+  # Filters which requests should be logged. Each filter is of the pattern NNN, NNX, or NXX where N is
+  # a number and X is a wildcard for any number. To filter all 5xx responses, use the string 5xx.
+  # If multiple filters are used, then only one has to match. The default is to have no filters which
+  # will cause every request to be printed.
+  access-log-status-filters = {{ influxdb_config.http.access_log_status_filters | to_json }}
+{% endif %}
+{% if 'write_tracing' in influxdb_config.http %}
+  # Determines whether detailed write logging is enabled.
+  write-tracing = {{ influxdb_config.http.write_tracing | to_json }}
+{% endif %}
+{% if 'pprof' in influxdb_config.http %}
+  # Determines whether the pprof endpoint is enabled.  This endpoint is used for
+  # troubleshooting and monitoring.
+  pprof-enabled = {{ influxdb_config.http.pprof_enabled | to_json }}
+{% endif %}
+{% if 'pprof_auth_enabled' in influxdb_config.http %}
+  # Enables authentication on pprof endpoints. Users will need admin permissions
+  # to access the pprof endpoints when this setting is enabled. This setting has
+  # no effect if either auth-enabled or pprof-enabled are set to false.
+  pprof-auth-enabled = {{ influxdb_config.http.pprof_auth_enabled | to_json }}
+{% endif %}
+{% if 'debug_pprof_enabled' in influxdb_config.http %}
+  # Enables a pprof endpoint that binds to localhost:6060 immediately on startup.
+  # This is only needed to debug startup issues.
+  debug-pprof-enabled = {{ influxdb_config.http.debug_pprof_enabled | to_json }}
+{% endif %}
+{% if 'ping_auth_enabled' in influxdb_config.http %}
+  # Enables authentication on the /ping, /metrics, and deprecated /status
+  # endpoints. This setting has no effect if auth-enabled is set to false.
+  ping-auth-enabled = {{ influxdb_config.http.ping_auth_enabled | to_json }}
+{% endif %}
+{% if 'https_enabled' in influxdb_config.http %}
+  # Determines whether HTTPS is enabled.
+  https-enabled = {{ influxdb_config.http.https_enabled | to_json }}
+{% endif %}
+{% if 'https_certificate' in influxdb_config.http %}
+  # The SSL certificate to use when HTTPS is enabled.
+  https-certificate = {{ influxdb_config.http.https_certificate | to_json }}
+{% endif %}
+{% if 'https_private_key' in influxdb_config.http %}
+  # Use a separate private key location.
+  https-private-key = {{ influxdb_config.http.https_private_key | to_json }}
+{% endif %}
+{% if 'shared_secret' in influxdb_config.http %}
+  # The JWT auth shared secret to validate requests using JSON web tokens.
+  shared-secret = {{ influxdb_config.http.shared_secret | to_json }}
+{% endif %}
+{% if 'max_row_limit' in influxdb_config.http %}
+  # The default chunk size for result sets that should be chunked.
+  max-row-limit = {{ influxdb_config.http.max_row_limit | to_json }}
+{% endif %}
+{% if 'max_connection_limit' in influxdb_config.http %}
+  # The maximum number of HTTP connections that may be open at once.  New connections that
+  # would exceed this limit are dropped.  Setting this value to 0 disables the limit.
+  max-connection-limit = {{ influxdb_config.http.max_connection_limit | to_json }}
+{% endif %}
+{% if 'unix_socket_enabled' in influxdb_config.http %}
+  # Enable http service over unix domain socket
+  unix-socket-enabled = {{ influxdb_config.http.unix_socket_enabled | to_json }}
+{% endif %}
+{% if 'bind_socket' in influxdb_config.http %}
+  # The path of the unix domain socket.
+  bind-socket = {{ influxdb_config.http.bind_socket | to_json }}
+{% endif %}
+{% if 'max_body_size' in influxdb_config.http %}
+  # The maximum size of a client request body, in bytes. Setting this value to 0 disables the limit.
+  max-body-size = {{ influxdb_config.http.max_body_size | to_json }}
+{% endif %}
+{% if 'max_concurrent_write_limit' in influxdb_config.http %}
+  # The maximum number of writes processed concurrently.
+  # Setting this to 0 disables the limit.
+  max-concurrent-write-limit = {{ influxdb_config.http.max_concurrent_write_limit | to_json }}
+{% endif %}
+{% if 'max_enqueued_write_limit' in influxdb_config.http %}
+  # The maximum number of writes queued for processing.
+  # Setting this to 0 disables the limit.
+  max-enqueued-write-limit = {{ influxdb_config.http.max_enqueued_write_limit | to_json }}
+{% endif %}
+{% if 'enqueued_write_timeout' in influxdb_config.http %}
+  # The maximum duration for a write to wait in the queue to be processed.
+  # Setting this to 0 or setting max-concurrent-write-limit to 0 disables the limit.
+  enqueued-write-timeout = {{ influxdb_config.http.enqueued_write_timeout | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'logging' in influxdb_config %}
+###
+### [logging]
+###
+### Controls how the logger emits logs to the output.
+###
+
+[logging]
+{% if 'format' in influxdb_config.logging %}
+  # Determines which log encoder to use for logs. Available options
+  # are auto, logfmt, and json. auto will use a more a more user-friendly
+  # output format if the output terminal is a TTY, but the format is not as
+  # easily machine-readable. When the output is a non-TTY, auto will use
+  # logfmt.
+  format = {{ influxdb_config.logging.format | to_json }}
+{% endif %}
+{% if 'level' in influxdb_config.logging %}
+  # Determines which level of logs will be emitted. The available levels
+  # are error, warn, info, and debug. Logs that are equal to or above the
+  # specified level will be emitted.
+  level = {{ influxdb_config.logging.level | to_json }}
+{% endif %}
+{% if 'suppress_logo' in influxdb_config.logging %}
+  # Suppresses the logo output that is printed when the program is started.
+  # The logo is always suppressed if STDOUT is not a TTY.
+  suppress-logo = {{ influxdb_config.logging.suppress_logo | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'subscriber' in influxdb_config %}
+###
+### [subscriber]
+###
+### Controls the subscriptions, which can be used to fork a copy of all data
+### received by the InfluxDB host.
+###
+
+[subscriber]
+{% if 'enabled' in influxdb_config.subscriber %}
+  # Determines whether the subscriber service is enabled.
+  enabled = {{ influxdb_config.subscriber.enabled | to_json }}
+{% endif %}
+{% if 'http_timeout' in influxdb_config.subscriber %}
+  # The default timeout for HTTP writes to subscribers.
+  http-timeout = {{ influxdb_config.subscriber.http_timeout | to_json }}
+{% endif %}
+{% if 'insecure_skip_verify' in influxdb_config.subscriber %}
+  # Allows insecure HTTPS connections to subscribers.  This is useful when testing with self-
+  # signed certificates.
+  insecure-skip-verify = {{ influxdb_config.subscriber.insecure_skip_verify | to_json }}
+{% endif %}
+{% if 'ca_certs' in influxdb_config.subscriber %}
+  # The path to the PEM encoded CA certs file. If the empty string, the default system certs will be used
+  ca-certs = {{ influxdb_config.subscriber.ca_certs | to_json }}
+{% endif %}
+{% if 'write_concurrency' in influxdb_config.subscriber %}
+  # The number of writer goroutines processing the write channel.
+  write-concurrency = {{ influxdb_config.subscriber.write_concurrency | to_json }}
+{% endif %}
+{% if 'write_buffer_size' in influxdb_config.subscriber %}
+  # The number of in-flight writes buffered in the write channel.
+  write-buffer-size = {{ influxdb_config.subscriber.write_buffer_size | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'graphite' in influxdb_config %}
+###
+### [[graphite]]
+###
+### Controls one or many listeners for Graphite data.
+###
+
+[[graphite]]
+{% if 'enabled' in influxdb_config.graphite %}
+  # Determines whether the graphite endpoint is enabled.
+  enabled = {{ influxdb_config.graphite.enabled | to_json }}
+{% endif %}
+{% if 'database' in influxdb_config.graphite %}
+  database = {{ influxdb_config.graphite.database | to_json }}
+{% endif %}
+{% if 'retention_policy' in influxdb_config.graphite %}
+  retention-policy = {{ influxdb_config.graphite.retention_policy | to_json }}
+{% endif %}
+{% if 'bind_address' in influxdb_config.graphite.bind_address %}
+  bind-address = {{ influxdb_config.graphite.bind_address | to_json }}
+{% endif %}
+{% if 'protocol' in influxdb_config.graphite %}
+  protocol = {{ influxdb_config.graphite.protocol | to_json }}
+{% endif %}
+{% if 'consistency_level' in influxdb_config.graphite %}
+  consistency-level = {{ influxdb_config.graphite.consistency_level | to_json }}
+{% endif %}
+
+  # These next lines control how batching works. You should have this enabled
+  # otherwise you could get dropped metrics or poor performance. Batching
+  # will buffer points in memory if you have many coming in.
+{% if 'batch_size' in influxdb_config.graphite %}
+  # Flush if this many points get buffered
+  batch-size = {{ influxdb_config.graphite.batch_size | to_json }}
+{% endif %}
+{% if 'batch_pending' in influxdb_config.graphite %}
+  # number of batches that may be pending in memory
+  batch-pending = {{ influxdb_config.graphite.batch_pending | to_json }}
+{% endif %}
+{% if 'batch_timeout' in influxdb_config.graphite %}
+  # Flush at least this often even if we havent hit buffer limit
+  batch-timeout = {{ influxdb_config.graphite.batch_timeout | to_json }}
+{% endif %}
+{% if 'udp_read_buffer' in influxdb_config.graphite %}
+  # UDP Read buffer size, 0 means OS default. UDP listener will fail if set above OS max.
+  udp-read-buffer = {{ influxdb_config.graphite.udp_read_buffer | to_json }}
+{% endif %}
+{% if 'separator' in influxdb_config.graphite %}
+  ### This string joins multiple matching 'measurement' values providing more control over the final measurement name.
+  separator = {{ influxdb_config.graphite.separator | to_json }}
+{% endif %}
+{% if 'tags' in influxdb_config.graphite %}
+  ### Default tags that will be added to all metrics.  These can be overridden at the template level
+  ### or by tags extracted from metric
+  tags = {{ influxdb_config.graphite.tags | to_json }}
+{% endif %}
+{% if 'templates' in influxdb_config.graphite %}
+  ### Each template line requires a template pattern.  It can have an optional
+  ### filter before the template and separated by spaces.  It can also have optional extra
+  ### tags following the template.  Multiple tags should be separated by commas and no spaces
+  ### similar to the line protocol format.  There can be only one default template.
+  templates = {{ influxdb_config.graphite.templates | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'collectd' in influxdb_config %}
+###
+### [collectd]
+###
+### Controls one or many listeners for collectd data.
+###
+
+[[collectd]]
+{% if 'enabled' in influxdb_config.collectd %}
+  enabled = {{ influxdb_config.collectd.enabled | to_json }}
+{% endif %}
+{% if 'bind_address' in influxdb_config.collectd %}
+  bind-address = {{ influxdb_config.collectd.bind_address | to_json }}
+{% endif %}
+{% if 'database' in influxdb_config.collectd %}
+  database = {{ influxdb_config.collectd.database | to_json }}
+{% endif %}
+{% if 'retention_policy' in influxdb_config.collectd %}
+  retention-policy = {{ influxdb_config.collectd.retention_policy | to_json }}
+{% endif %}
+{% if 'typesdb' in influxdb_config.collectd %}
+  # The collectd service supports either scanning a directory for multiple types
+  # db files, or specifying a single db file.
+  typesdb = {{ influxdb_config.collectd.typesdb | to_json }}
+{% endif %}
+{% if 'security_level' in influxdb_config.collectd %}
+  security-level = {{ influxdb_config.collectd.security_level | to_json }}
+{% endif %}
+{% if 'auth_file' in influxdb_config.collectd %}
+  auth-file = {{ influxdb_config.collectd.auth_file | to_json }}
+{% endif %}
+  # These next lines control how batching works. You should have this enabled
+  # otherwise you could get dropped metrics or poor performance. Batching
+  # will buffer points in memory if you have many coming in.
+
+{% if 'batch_size' in influxdb_config.collectd %}
+  # Flush if this many points get buffered
+  batch-size = {{ influxdb_config.collectd.batch_size | to_json }}
+{% endif %}
+
+{% if 'batch_pending' in influxdb_config.collectd %}
+  # Number of batches that may be pending in memory
+  batch-pending = {{ influxdb_config.collectd.batch_pending | to_json }}
+{% endif %}
+
+{% if 'batch_timeout' in influxdb_config.collectd %}
+  # Flush at least this often even if we havent hit buffer limit
+  batch-timeout = {{ influxdb_config.collectd.batch_timeout | to_json }}
+{% endif %}
+
+{% if 'read_buffer' in influxdb_config.collectd %}
+  # UDP Read buffer size, 0 means OS default. UDP listener will fail if set above OS max.
+  read-buffer = {{ influxdb_config.collectd.read_buffer | to_json }}
+{% endif %}
+
+{% if 'parse_multivalue_plugin' in influxdb_config.collectd %}
+  # Multi-value plugins can be handled two ways.
+  # "split" will parse and store the multi-value plugin data into separate measurements
+  # "join" will parse and store the multi-value plugin as a single multi-value measurement.
+  # "split" is the default behavior for backward compatibility with previous versions of influxdb.
+  parse-multivalue-plugin = {{ influxdb_config.collectd.parse_multivalue_plugin | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'opentsdb' in influxdb_config %}
+###
+### [opentsdb]
+###
+### Controls one or many listeners for OpenTSDB data.
+###
+
+[[opentsdb]]
+{% if 'enabled' in influxdb_config.opentsdb %}
+  enabled = {{ influxdb_config.opentsdb.enabled | to_json }}
+{% endif %}
+{% if 'bind_address' in influxdb_config.opentsdb %}
+  bind-address = {{ influxdb_config.opentsdb.bind_address | to_json }}
+{% endif %}
+{% if 'database' in influxdb_config.opentsdb %}
+  database = {{ influxdb_config.opentsdb.database | to_json }}
+{% endif %}
+{% if 'retention_policy' in influxdb_config.opentsdb %}
+  retention-policy = {{ influxdb_config.opentsdb.retention_policy | to_json }}
+{% endif %}
+{% if 'consistency_level' in influxdb_config.opentsdb %}
+  consistency-level = {{ influxdb_config.opentsdb.consistency_level | to_json }}
+{% endif %}
+{% if 'tls_enabled' in influxdb_config.opentsdb %}
+  tls-enabled = {{ influxdb_config.opentsdb.tls_enabled | to_json }}
+{% endif %}
+{% if 'certificate' in influxdb_config.opentsdb %}
+  certificate = {{ influxdb_config.opentsdb.certificate | to_json }}
+{% endif %}
+{% if 'log_point_errors' in influxdb_config.opentsdb %}
+  # Log an error for every malformed point.
+  log-point-errors = {{ influxdb_config.opentsdb.log_point_errors | to_json }}
+{% endif %}
+
+  # These next lines control how batching works. You should have this enabled
+  # otherwise you could get dropped metrics or poor performance. Only points
+  # metrics received over the telnet protocol undergo batching.
+
+{% if 'batch_size' in influxdb_config.opentsdb %}
+  # Flush if this many points get buffered
+  batch-size = {{ influxdb_config.opentsdb.batch_size | to_json }}
+{% endif %}
+
+{% if 'batch_pending' in influxdb_config.opentsdb %}
+  # Number of batches that may be pending in memory
+  batch-pending = {{ influxdb_config.opentsdb.batch_pending | to_json }}
+{% endif %}
+
+{% if 'batch_timeout' in influxdb_config.opentsdb %}
+  # Flush at least this often even if we havent hit buffer limit
+  batch-timeout = {{ influxdb_config.opentsdb.batch_timeout | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'udp' in influxdb_config %}
+###
+### [[udp]]
+###
+### Controls the listeners for InfluxDB line protocol data via UDP.
+###
+
+[[udp]]
+{% if 'enabled' in influxdb_config.udp %}
+  enabled = {{ influxdb_config.udp.enabled | to_json }}
+{% endif %}
+{% if 'bind_address' in influxdb_config.udp %}
+  bind-address = {{ influxdb_config.udp.bind_address | to_json }}
+{% endif %}
+{% if 'database' in influxdb_config.udp %}
+  database = {{ influxdb_config.udp.database | to_json }}
+{% endif %}
+{% if 'retention_policy' in influxdb_config.udp %}
+  retention-policy = {{ influxdb_config.udp.retention_policy | to_json }}
+{% endif %}
+{% if 'precision' in influxdb_config.udp %}
+  # InfluxDB precision for timestamps on received points ("" or "n", "u", "ms", "s", "m", "h")
+  precision = {{ influxdb_config.udp.precision | to_json }}
+{% endif %}
+
+  # These next lines control how batching works. You should have this enabled
+  # otherwise you could get dropped metrics or poor performance. Batching
+  # will buffer points in memory if you have many coming in.
+{% if 'batch_size' in influxdb_config.udp %}
+  # Flush if this many points get buffered
+  batch-size = {{ influxdb_config.udp.batch_size | to_json }}
+{% endif %}
+{% if 'batch_pending' in influxdb_config.udp %}
+  # Number of batches that may be pending in memory
+  batch-pending = {{ influxdb_config.udp.batch_pending | to_json }}
+{% endif %}
+{% if 'batch_timeout' in influxdb_config.udp.batch_timeout %}
+  # Will flush at least this often even if we havent hit buffer limit
+  batch-timeout = {{ influxdb_config.udp.batch_timeout | to_json }}
+{% endif %}
+{% if 'read_buffer' in influxdb_config.udp %}
+  # UDP Read buffer size, 0 means OS default. UDP listener will fail if set above OS max.
+  read-buffer = {{ influxdb_config.udp.read_buffer | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'continuous_queries' in influxdb_config %}
+###
+### [continuous_queries]
+###
+### Controls how continuous queries are run within InfluxDB.
+###
+
+[continuous_queries]
+{% if 'enabled' in influxdb_config.continuous_queries %}
+  # Determines whether the continuous query service is enabled.
+  enabled = {{ influxdb_config.continuous_queries.enabled | to_json }}
+{% endif %}
+{% if 'log_enabled' in influxdb_config.continuous_queries %}
+  # Controls whether queries are logged when executed by the CQ service.
+  log-enabled = {{ influxdb_config.continuous_queries.log_enabled | to_json }}
+{% endif %}
+{% if 'query_stats_enabled' in influxdb_config.continuous_queries %}
+  # Controls whether queries are logged to the self-monitoring data store.
+  query-stats-enabled = {{ influxdb_config.continuous_queries.query_stats_enabled | to_json }}
+{% endif %}
+{% if 'run_interval' in influxdb_config.continuous_queries %}
+  # interval for how often continuous queries will be checked if they need to run
+  run-interval = {{ influxdb_config.continuous_queries.run_interval | to_json }}
+{% endif %}
+{% endif %}
+
+{% if 'tls' in influxdb_config %}
+###
+### [tls]
+###
+### Global configuration settings for TLS in InfluxDB.
+###
+
+[tls]
+  # Determines the available set of cipher suites. See https://golang.org/pkg/crypto/tls/#pkg-constants
+  # for a list of available ciphers, which depends on the version of Go (use the query
+  # SHOW DIAGNOSTICS to see the version of Go used to build InfluxDB). If not specified, uses
+  # the default settings from Gos crypto/tls package.
+{% if 'ciphers' in influxdb_config.tls %}
+   ciphers = {{ influxdb_config.tls.ciphers | to_json }}
+{% endif %}
+
+{% if 'min_version' in influxdb_config.tls %}
+  # Minimum version of the tls protocol that will be negotiated. If not specified, uses the
+  # default settings from Gos crypto/tls package.
+  min-version = {{ influxdb_config.tls.min_version | to_json }}
+{% endif %}
+
+{% if 'max_version' in influxdb_config.tls %}
+  # Maximum version of the tls protocol that will be negotiated. If not specified, uses the
+  # default settings from Gos crypto/tls package.
+  max-version = {{ influxdb_config.tls.max_version | to_json }}
+{% endif %}
+{% endif %}

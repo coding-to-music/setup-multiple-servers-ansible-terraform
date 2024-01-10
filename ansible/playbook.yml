@@ -18,8 +18,19 @@
       roles:
 
     - role: setup-influxdb
+      become: yes
       tags:
         - influxdb
+
+    - role: andrewrothstein.influxdb
+      become: yes
+      tags:
+        - andrewrothstein_influxdb
+
+    - role: andrewrothstein.influxdb2
+      become: yes
+      tags:
+        - andrewrothstein_influxdb2
 
       # influxdb_orgs:
       #   - name: main-org

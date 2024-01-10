@@ -1,0 +1,11 @@
+---
+- name: templatize influxdb.conf
+  become: yes
+  become_user: root
+  with_items:
+    - f: influxdb.conf
+      d: '{{ influxdb_conf_dir }}'
+  template:
+    src: '{{ item.f }}.j2'
+    dest: '{{ item.d }}/{{ item.f }}'
+    mode: '{{ item.m | default("0644") }}'

@@ -165,4 +165,50 @@ The offending line appears to be:
       ^ here
 ```
 
+5) yet  another InfluxDB playbook, this one for InfluxDB 1.8
 
+https://galaxy.ansible.com/ui/standalone/roles/andrewrothstein/influxdb/documentation/
+
+Install role
+
+```java
+ansible-galaxy role install andrewrothstein.influxdb
+```
+
+- To run the playbook: `ansible-playbook -i inventory playbook.yml --tag=andrewrothstein_influxdb`
+
+Output
+
+```java
+TASK [andrewrothstein.influxdb : templatize influxdb.conf] ****************************************************************************************
+changed: [srv3] => (item={'f': 'influxdb.conf', 'd': '/usr/local/influxdb-1.8.4-1/etc/influxdb'})
+changed: [srv2] => (item={'f': 'influxdb.conf', 'd': '/usr/local/influxdb-1.8.4-1/etc/influxdb'})
+
+PLAY RECAP ****************************************************************************************************************************************
+srv2                       : ok=11   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+srv3                       : ok=11   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
+```
+
+6) yet  another InfluxDB playbook, this one for InfluxDB 2.6.1
+
+https://github.com/andrewrothstein/ansible-influxdb2
+
+Install role
+
+```java
+ansible-galaxy role install andrewrothstein.influxdb2
+```
+
+- To run the playbook: `ansible-playbook -i inventory playbook.yml --tag=andrewrothstein_influxdb2`
+
+Output
+
+```java
+TASK [andrewrothstein.influxdb2 : linking /usr/local/bin/influx to /usr/local/influxdb2-2.6.1/influxdb2-client-2.6.1-linux-amd64/influx] ***
+changed: [srv2]
+changed: [srv3]
+
+PLAY RECAP *********************************************************************************************************************
+srv2                       : ok=19   changed=9    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+srv3                       : ok=19   changed=9    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+```
