@@ -212,3 +212,17 @@ PLAY RECAP *********************************************************************
 srv2                       : ok=19   changed=9    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
 srv3                       : ok=19   changed=9    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
 ```
+
+ssh to remote server
+
+start influxdb2 via:
+
+```
+/usr/local/bin/influxd 
+```
+
+output
+
+```java
+2024-01-10T04:52:11.700066Z     info    Welcome to InfluxDB     {"log_id": "0mdRGNCl000", "version": "v2.6.1", "commit": "9dcf880fe0", "build_date": "2022-12-29T15:53:07Z", "log_level": "info"}
+```
