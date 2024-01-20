@@ -4,7 +4,6 @@
 
 https://docs.ansible.com/ansible/latest/getting_started/get_started_inventory.html
 
-
 ```java
 # manually set timezone
 
@@ -28,7 +27,7 @@ grep -Po '^sudo.+:\K.*$' /etc/group
 
 groups <username>
 
-ansible-inventory -i inventory --list
+ansible-inventory -i inventory.ini --list
 
 # if username on the control node is the SAME on the managed nodes
 ansible myhosts -m ping -i inventory
@@ -84,17 +83,17 @@ ansible-galaxy collection install community.general
 
 ## Imp things to keep in mind
 
-1) `ansible_ssh_user` for the first run should `root` since there is no user in the instance.
-You must ensure that `bootstrap-nodes` role is first run before continuing. It disables the `root` SSH login to the instance and only
-the `username` supplied in `inventory` has access to SSH.
+1. `ansible_ssh_user` for the first run should `root` since there is no user in the instance.
+   You must ensure that `bootstrap-nodes` role is first run before continuing. It disables the `root` SSH login to the instance and only
+   the `username` supplied in `inventory` has access to SSH.
 
 **Bootstrap**: `ansible-playbook -i inventory playbook.yml --tag=bootstrap`
 
-or with  --ask-pass
+or with --ask-pass
 
 **Bootstrap**: `ansible-playbook -i inventory playbook.yml --tag=bootstrap -u root --ask-pass`
 
-Succeeded, then ran it again, complains that I am not root and so it cant write to /etc 
+Succeeded, then ran it again, complains that I am not root and so it cant write to /etc
 
 ```java
 TASK [bootstrap-node : add ssh banner info] *******************************************************************************************************
@@ -106,20 +105,20 @@ fatal: [srv3]: FAILED! => {"changed": false, "checksum": "f9ecc78f4f3efb2e7e6566
 fatal: [srv2]: FAILED! => {"changed": false, "checksum": "5399406a965030a7fe153df685acb9ac4029e14d", "msg": "Destination /etc not writable"}
 
 PLAY RECAP ****************************************************************************************************************************************
-srv2                       : ok=16   changed=2    unreachable=0    failed=1    skipped=2    rescued=0    ignored=0   
-srv3                       : ok=16   changed=2    unreachable=0    failed=1    skipped=2    rescued=0    ignored=0   
+srv2                       : ok=16   changed=2    unreachable=0    failed=1    skipped=2    rescued=0    ignored=0
+srv3                       : ok=16   changed=2    unreachable=0    failed=1    skipped=2    rescued=0    ignored=0
 ```
 
 If you fail at this step, you need to debug before proceeding.
 
 if Bootstrap works, then in the future omit `-u root --ask-pass`
 
-2) For Tailscale, it is recommended to generate `Pre Authorisation Keys` and encrypt them in vault:
+2. For Tailscale, it is recommended to generate `Pre Authorisation Keys` and encrypt them in vault:
 
 - To encrypt the string `ansible-vault encrypt_string '<AUTH-KEY>' --name 'tailscale_auth_key`
 - To run the playbook: `ansible-playbook -i inventory playbook.yml --tag=tailscale --ask-vault-pass`
 
-3) For InfluxDB
+3. For InfluxDB
 
 - To run the playbook: `ansible-playbook -i inventory playbook.yml --tag=influxdb`
 
@@ -138,13 +137,13 @@ The offending line appears to be:
   ^ here
 ```
 
-Fixed via installing 
+Fixed via installing
 
 ```java
 ansible-galaxy collection install community.general
 ```
 
-4) another InfluxDB playbook
+4. another InfluxDB playbook
 
 https://www.devopstricks.in/deploy-influxdb-using-ansible-on-ubuntu-22-04-lts/
 
@@ -165,7 +164,7 @@ The offending line appears to be:
       ^ here
 ```
 
-5) yet  another InfluxDB playbook, this one for InfluxDB 1.8
+5. yet another InfluxDB playbook, this one for InfluxDB 1.8
 
 https://galaxy.ansible.com/ui/standalone/roles/andrewrothstein/influxdb/documentation/
 
@@ -185,11 +184,11 @@ changed: [srv3] => (item={'f': 'influxdb.conf', 'd': '/usr/local/influxdb-1.8.4-
 changed: [srv2] => (item={'f': 'influxdb.conf', 'd': '/usr/local/influxdb-1.8.4-1/etc/influxdb'})
 
 PLAY RECAP ****************************************************************************************************************************************
-srv2                       : ok=11   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-srv3                       : ok=11   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0  
+srv2                       : ok=11   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+srv3                       : ok=11   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-6) yet  another InfluxDB playbook, this one for InfluxDB 2.6.1
+6. yet another InfluxDB playbook, this one for InfluxDB 2.6.1
 
 https://github.com/andrewrothstein/ansible-influxdb2
 
@@ -209,8 +208,8 @@ changed: [srv2]
 changed: [srv3]
 
 PLAY RECAP *********************************************************************************************************************
-srv2                       : ok=19   changed=9    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
-srv3                       : ok=19   changed=9    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   
+srv2                       : ok=19   changed=9    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+srv3                       : ok=19   changed=9    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 ```
 
 ssh to remote server
@@ -218,7 +217,7 @@ ssh to remote server
 start influxdb2 via:
 
 ```
-/usr/local/bin/influxd 
+/usr/local/bin/influxd
 ```
 
 output
