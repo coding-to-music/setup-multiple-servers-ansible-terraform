@@ -29,11 +29,15 @@ groups <username>
 
 ansible-inventory -i inventory.ini --list
 
+ansible-inventory -i inventory.ini --list
+
 # if username on the control node is the SAME on the managed nodes
-ansible myhosts -m ping -i inventory
+ansible myhosts -m ping -i inventory.ini --ask-pass
 
 # if username on the control node is different from the managed nodes
-ansible myhosts -m ping -i inventory -u root --ask-pass
+ansible myhosts -m ping -i inventory.ini -u root --ask-pass
+
+ansible myhosts -m ping -i inventory.ini --ask-pass
 
 ```
 
@@ -79,6 +83,12 @@ This is needed to run `local_gen`
 
 ```java
 ansible-galaxy collection install community.general
+```
+
+## May need to install this for prompting for the root password on the remote hosts
+
+```java
+sudo apt-get install sshpass
 ```
 
 ## Imp things to keep in mind
