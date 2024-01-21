@@ -85,6 +85,20 @@ This is needed to run `local_gen`
 ansible-galaxy collection install community.general
 ```
 
+or add these rows to requirements.yml
+
+```java
+roles:
+  - name: markosamuli.pyenv
+  - name: community.general
+```
+
+Install them via:
+
+```java
+ansible-galaxy collection install -r requirements.yml
+```
+
 ## May need to install this for prompting for the root password on the remote hosts
 
 ```java
@@ -97,7 +111,11 @@ sudo apt-get install sshpass
    You must ensure that `bootstrap-nodes` role is first run before continuing. It disables the `root` SSH login to the instance and only
    the `username` supplied in `inventory` has access to SSH.
 
-**Bootstrap**: `ansible-playbook -i inventory playbook.yml --tag=bootstrap`
+**Bootstrap**: `
+
+```java
+ansible-playbook -i inventory playbook.yml --tag=bootstrap  --ask-pass
+```
 
 or with --ask-pass
 

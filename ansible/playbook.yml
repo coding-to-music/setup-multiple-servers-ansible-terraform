@@ -1,5 +1,4 @@
 ---
-
 - hosts: all
   roles:
     - role: bootstrap-node
@@ -10,50 +9,48 @@
       become: true
       tags:
         - docker
-    
-    - role: setup-tailscale
-      become: yes
-      tags:
-        - tailscale
-      roles:
 
-    - role: setup-influxdb
-      become: yes
-      tags:
-        - influxdb
+    # - role: setup-tailscale
+    #   become: yes
+    #   tags:
+    #     - tailscale
+    #   roles:
 
-    - role: andrewrothstein.influxdb
-      become: yes
-      tags:
-        - andrewrothstein_influxdb
+    # - role: setup-influxdb
+    #   become: yes
+    #   tags:
+    #     - influxdb
 
-    - role: andrewrothstein.influxdb2
-      become: yes
-      tags:
-        - andrewrothstein_influxdb2
+    # - role: andrewrothstein.influxdb
+    #   become: yes
+    #   tags:
+    #     - andrewrothstein_influxdb
 
-      # influxdb_orgs:
-      #   - name: main-org
-      #     description: Main organization
-      #   - name: guest-org
+    # - role: andrewrothstein.influxdb2
+    #   become: yes
+    #   tags:
+    #     - andrewrothstein_influxdb2
 
-      # influxdb_users:
-      #   - name: admin01
-      #     org: main-org
-      #     password: secretPassword
-      #   - name: guest01
-      #     org: guest-org
-      #     password: secretPassword
+    # influxdb_orgs:
+    #   - name: main-org
+    #     description: Main organization
+    #   - name: guest-org
 
-      # influxdb_buckets:
-      #   - name: bucket01
-      #     description: First bucket
-      #     org: main-org
-      #     retention: 1d
-      #   - name: bucket02
-      #     org: main-org
+    # influxdb_users:
+    #   - name: admin01
+    #     org: main-org
+    #     password: secretPassword
+    #   - name: guest01
+    #     org: guest-org
+    #     password: secretPassword
 
-
+    # influxdb_buckets:
+    #   - name: bucket01
+    #     description: First bucket
+    #     org: main-org
+    #     retention: 1d
+    #   - name: bucket02
+    #     org: main-org
 
     # - role: viasite-ansible.zsh
     #   become: yes
