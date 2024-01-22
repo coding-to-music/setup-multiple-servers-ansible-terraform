@@ -1,4 +1,13 @@
 ---
+- name: enable ssh strict mode
+  lineinfile:
+    dest: "{{ ssh_sshd_config }}"
+    regexp: "^#?StrictModes"
+    line: "StrictModes yes"
+    state: present
+  notify:
+    - restart sshd
+
 - name: disable ssh remote root login
   lineinfile:
     dest: "{{ ssh_sshd_config }}"
@@ -32,16 +41,6 @@
   notify:
     - restart sshd
   when: username != None
-#
-# - name: enable ssh strict mode
-#   lineinfile:
-#     dest: "{{ ssh_sshd_config }}"
-#     regexp: "^#?StrictModes"
-#     line: "StrictModes yes"
-#     state: present
-#   notify:
-#     - restart sshd
-
 # - name: disable X11 forwarding
 #   lineinfile:
 #     dest: "{{ ssh_sshd_config }}"

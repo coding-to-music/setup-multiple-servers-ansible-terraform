@@ -1,5 +1,4 @@
 ---
-
 - import_tasks: apt.yml
   tags:
     - apt
@@ -23,3 +22,7 @@
 - import_tasks: hostname.yml
   tags:
     - hostname
+
+- import_tasks: firewalld.yml
+  tags:
+    - firewalld

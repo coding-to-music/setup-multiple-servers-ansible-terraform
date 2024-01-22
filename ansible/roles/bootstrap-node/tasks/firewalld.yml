@@ -1,0 +1,9 @@
+- name: Install firewalld
+  apt:
+    name: firewalld
+    state: present
+
+- name: Start firewalld
+  service:
+    name: firewalld
+    state: started

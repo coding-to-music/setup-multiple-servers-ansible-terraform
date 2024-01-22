@@ -8,14 +8,14 @@
 #   notify:
 #     - restart sshd
 
-- name: enable ssh strict mode
-  lineinfile:
-    dest: "{{ ssh_sshd_config }}"
-    regexp: "^#?StrictModes"
-    line: "StrictModes yes"
-    state: present
-  notify:
-    - restart sshd
+# - name: enable ssh strict mode
+#   lineinfile:
+#     dest: "{{ ssh_sshd_config }}"
+#     regexp: "^#?StrictModes"
+#     line: "StrictModes yes"
+#     state: present
+#   notify:
+#     - restart sshd
 
 - name: disable X11 forwarding
   lineinfile:
