@@ -113,31 +113,17 @@ sudo apt-get install sshpass
    You must ensure that `bootstrap-nodes` role is first run before continuing. It disables the `root` SSH login to the instance and only
    the `username` supplied in `inventory` has access to SSH.
 
-**Bootstrap**: `
-
 ```java
 ansible-playbook -i inventory playbook.yml --tag=bootstrap  --ask-pass
 ```
 
-or with --ask-pass
-
-**Bootstrap**: `ansible-playbook -i inventory playbook.yml --tag=bootstrap -u root --ask-pass`
-
-Succeeded, then ran it again, complains that I am not root and so it cant write to /etc
+3. disable using root login, after this step you cannot use root to rlogin, instead use the username you set up in the inventory file
 
 ```java
-TASK [bootstrap-node : add ssh banner info] *******************************************************************************************************
-ok: [srv3]
-ok: [srv2]
-
-TASK [bootstrap-node : update ssh banner] *********************************************************************************************************
-fatal: [srv3]: FAILED! => {"changed": false, "checksum": "f9ecc78f4f3efb2e7e65668a0362009fbb42155d", "msg": "Destination /etc not writable"}
-fatal: [srv2]: FAILED! => {"changed": false, "checksum": "5399406a965030a7fe153df685acb9ac4029e14d", "msg": "Destination /etc not writable"}
-
-PLAY RECAP ****************************************************************************************************************************************
-srv2                       : ok=16   changed=2    unreachable=0    failed=1    skipped=2    rescued=0    ignored=0
-srv3                       : ok=16   changed=2    unreachable=0    failed=1    skipped=2    rescued=0    ignored=0
+ansible-playbook -i inventory playbook.yml --tag=disable-root  --ask-pass
 ```
+
+Now going forward in the next ansible steps you must use the username user you set in the inventory vars section (it will have sudo capability)
 
 If you fail at this step, you need to debug before proceeding.
 
