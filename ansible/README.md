@@ -107,7 +107,9 @@ sudo apt-get install sshpass
 
 ## Imp things to keep in mind
 
-1. `ansible_ssh_user` for the first run should `root` since there is no user in the instance.
+1. rlogin root@ip_address for each server you want to modify, ensure you can log in and add the host fingerprint to the list of known hosts
+
+2. `ansible_ssh_user` for the first run should `root` since there is no user in the instance.
    You must ensure that `bootstrap-nodes` role is first run before continuing. It disables the `root` SSH login to the instance and only
    the `username` supplied in `inventory` has access to SSH.
 
