@@ -8,3 +8,4 @@ servername_you_want_set2 ansible_ssh_host=<ip_address_goes_here> ansible_ssh_use
 [server_list:vars]
 username=username_to_create_on_remote_host
 github_ssh_key_url=https://github.com/my-github-username.keys
+node_versions=['16', '18', '20']
