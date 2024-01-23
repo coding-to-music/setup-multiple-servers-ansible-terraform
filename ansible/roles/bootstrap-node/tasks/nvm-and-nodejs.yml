@@ -1,6 +1,5 @@
 ---
-- name: Install NVM and various versions of Node.js for username
-  hosts: all
+- name: Install NVM and various versions of Nodejs for username
   become: yes
   become_user: "{{username}}"
   tasks:
@@ -12,33 +11,64 @@
       environment:
         NVM_DIR: ~/.nvm
       register: nvm_install
-
     - name: Source NVM
       lineinfile:
-        dest: ~/.bashrc
-        line: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      when: nvm_install.changed
+        dest: "~/.{{ item }}"
+        line: "source ~/.nvm/nvm.sh"
+        create: yes
+      with_items:
+        - bashrc
+        - profile
+    - name: Install Nodejs
+      shell: "source ~/.nvm/nvm.sh && nvm install {{ item }}"
+      with_items:
+        - 16
+        - 18
+        - 20
 
-    - name: Install Node.js v16
-      shell: |
-        source ~/.nvm/nvm.sh
-        nvm install 16
-      when: "'16' in node_versions"
+        # - 14.17.6
+        # - 16.13.0
+#
+# - name: Install NVM and various versions of Nodejs for username
+#   # hosts: all
+#   become: yes
+#   become_user: "{{username}}"
+#   tasks:
+#     - name: Install NVM
+#       git:
+#         repo: https://github.com/nvm-sh/nvm.git
+#         dest: ~/.nvm
+#         version: v0.38.0
+#       environment:
+#         NVM_DIR: ~/.nvm
+#       register: nvm_install
 
-    - name: Install Node.js v18
-      shell: |
-        source ~/.nvm/nvm.sh
-        nvm install 18
-        nvm alias default 18
-      when: "'18' in node_versions"
+#     - name: Source NVM
+#       lineinfile:
+#         dest: ~/.bashrc
+#         line: |
+#           export NVM_DIR="$HOME/.nvm"
+#           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+#       when: nvm_install.changed
 
-    - name: Install Node.js v20
-      shell: |
-        source ~/.nvm/nvm.sh
-        nvm install 20
-      when: "'20' in node_versions"
+#     - name: Install Node.js v16
+#       shell: |
+#         source ~/.nvm/nvm.sh
+#         nvm install 16
+#       when: "'16' in node_versions"
+
+#     - name: Install Node.js v18
+#       shell: |
+#         source ~/.nvm/nvm.sh
+#         nvm install 18
+#         nvm alias default 18
+#       when: "'18' in node_versions"
+
+#     - name: Install Node.js v20
+#       shell: |
+#         source ~/.nvm/nvm.sh
+#         nvm install 20
+#       when: "'20' in node_versions"
 #
 # - name: Add user to wheel group
 #   user:

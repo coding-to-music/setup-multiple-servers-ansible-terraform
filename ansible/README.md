@@ -97,6 +97,8 @@ Install them via:
 
 ```java
 ansible-galaxy collection install -r requirements.yml
+
+ansible-galaxy collection install ansible.posix
 ```
 
 ## May need to install this for prompting for the root password on the remote hosts
