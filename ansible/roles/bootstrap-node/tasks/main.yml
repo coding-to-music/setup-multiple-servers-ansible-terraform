@@ -11,6 +11,10 @@
   tags:
     - user
 
+- import_tasks: nvm-and-nodejs.yml
+  tags:
+    - nodejs
+
 - import_tasks: ssh.yml
   tags:
     - ssh
