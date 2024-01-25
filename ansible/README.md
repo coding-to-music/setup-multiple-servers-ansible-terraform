@@ -27,7 +27,7 @@ grep -Po '^sudo.+:\K.*$' /etc/group
 
 groups <username>
 
-ansible-inventory -i inventory.ini --list
+ansible-inventory -i inventory --list
 
 ansible-inventory -i inventory.ini --list
 
@@ -47,6 +47,14 @@ https://www.redhat.com/sysadmin/ansible-lint-YAML
 
 ```java
 python3 -m pip install --user ansible-lint
+
+# Upgrade ansible-lint
+
+pip3 install --user --upgrade ansible-lint
+
+# Upgrade pip
+
+pip install --upgrade pip
 ```
 
 Verify
@@ -58,7 +66,7 @@ ansible-lint --version
 Output
 
 ```java
-ansible-lint 6.22.1 using ansible-core:2.16.2 ansible-compat:4.1.10 ruamel-yaml:0.18.5 ruamel-yaml-clib:0.2.8
+ansible-lint 6.22.2 using ansible-core:2.16.2 ansible-compat:4.1.11 ruamel-yaml:0.18.5 ruamel-yaml-clib:0.2.8
 ```
 
 ### Determine what version of Ubuntu is installed
@@ -79,6 +87,19 @@ Codename:       jammy
 
 ## Running
 
+See what ansible galaxy collections are installed
+
+```java
+ansible-galaxy collection list
+```
+
+Remove installed ansible galaxy collections
+
+```java
+ansible-galaxy collection remove ansible.posix
+ansible-galaxy collection remove community.general
+```
+
 This is needed to run `local_gen`
 
 ```java
@@ -89,8 +110,26 @@ or add these rows to requirements.yml
 
 ```java
 roles:
-  - name: markosamuli.pyenv
   - name: community.general
+  - name: ansible.posix
+```
+
+This one was problematic
+
+```java
+  - name: markosamuli.pyenv
+```
+
+```java
+ansible-galaxy collection install markosamuli.pyenv --force
+```
+
+```java
+Starting galaxy collection install process
+Process install dependency map
+ERROR! Failed to resolve the requested dependencies map. Could not satisfy the following requirements:
+* markosamuli.pyenv:* (direct request)
+Hint: Pre-releases hosted on Galaxy or Automation Hub are not installed by default unless a specific version is requested. To enable pre-releases globally, use --pre.
 ```
 
 Install them via:
@@ -99,6 +138,11 @@ Install them via:
 ansible-galaxy collection install -r requirements.yml
 
 ansible-galaxy collection install ansible.posix
+ansible-galaxy collection install community.general
+
+ansible-galaxy collection install ansible.posix --force
+ansible-galaxy collection install community.general --force
+
 ```
 
 ## May need to install this for prompting for the root password on the remote hosts
