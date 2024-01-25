@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Overall Playbook
+  hosts: all
   roles:
     - role: bootstrap-node
       tags:

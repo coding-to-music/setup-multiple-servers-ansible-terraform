@@ -1,5 +1,6 @@
 ---
-- import_tasks: apt.yml
+- name: Main Tasks
+  import_tasks: apt.yml
   tags:
     - apt
 

@@ -161,12 +161,18 @@ sudo apt-get install sshpass
 
 ```java
 ansible-playbook -i inventory playbook.yml --tag=bootstrap  --ask-pass
+
+# if you want to run it a second time, omit the --ask_pass so that it will use he ssh keys.
+
+ansible-playbook -i inventory playbook.yml --tag=bootstrap
 ```
 
 3. disable using root login, after this step you cannot use root to rlogin, instead use the username you set up in the inventory file
 
 ```java
 ansible-playbook -i inventory playbook.yml --tag=disable-root  --ask-pass
+
+ansible-playbook -i inventory playbook.yml --tag=disable-root
 ```
 
 Now going forward in the next ansible steps you must use the username user you set in the inventory vars section (it will have sudo capability)
