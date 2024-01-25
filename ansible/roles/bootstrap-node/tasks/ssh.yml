@@ -17,8 +17,8 @@
 #   notify:
 #     - restart sshd
 
-- name: disable X11 forwarding
-  lineinfile:
+- name: Disable X11 forwarding
+  ansible.builtin.lineinfile:
     dest: "{{ ssh_sshd_config }}"
     regexp: ^#?X11Forwarding
     line: X11Forwarding no
@@ -51,8 +51,8 @@
 #     - restart sshd
 #   when: username != None
 
-- name: add ssh banner info
-  lineinfile:
+- name: Add ssh banner info
+  ansible.builtin.lineinfile:
     dest: "{{ ssh_sshd_config }}"
     regexp: ^#?Banner
     line: Banner /etc/issue.net
@@ -60,8 +60,8 @@
   notify:
     - restart sshd
 
-- name: update ssh banner
-  template:
+- name: Update ssh banner
+  ansible.builtin.template:
     src: ssh-banner.j2
     dest: /etc/issue.net
   notify:

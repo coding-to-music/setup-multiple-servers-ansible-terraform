@@ -1,13 +1,13 @@
 ---
 - name: Update apt cache and upgrade
   become: true
-  apt:
+  ansible.builtin.apt:
     update_cache: true
     upgrade: "yes"
 
 - name: Install dependencies
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
   vars:
     packages:
@@ -25,17 +25,17 @@
       # - python-apt
       # - python
 
-- name: install unattended-upgrades
-  apt:
+- name: Install unattended-upgrades
+  ansible.builtin.apt:
     name: unattended-upgrades
     state: present
 
 - name: Remove useless packages from the cache
   become: true
-  apt:
+  ansible.builtin.apt:
     autoclean: true
 
 - name: Remove dependencies that are no longer required
   become: true
-  apt:
+  ansible.builtin.apt:
     autoremove: true

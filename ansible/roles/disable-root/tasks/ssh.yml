@@ -1,6 +1,6 @@
 ---
-- name: enable ssh strict mode
-  lineinfile:
+- name: Enable ssh strict mode
+  ansible.builtin.lineinfile:
     dest: "{{ ssh_sshd_config }}"
     regexp: ^#?StrictModes
     line: StrictModes yes
@@ -8,8 +8,8 @@
   notify:
     - restart sshd
 
-- name: disable ssh remote root login
-  lineinfile:
+- name: Disable ssh remote root login
+  ansible.builtin.lineinfile:
     dest: "{{ ssh_sshd_config }}"
     regexp: ^#?PermitRootLogin
     line: PermitRootLogin no
@@ -17,8 +17,8 @@
   notify:
     - restart sshd
 
-- name: disable ssh password login
-  lineinfile:
+- name: Disable ssh password login
+  ansible.builtin.lineinfile:
     dest: "{{ ssh_sshd_config }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -33,8 +33,8 @@
   notify:
     - restart sshd
 
-- name: set ssh allowed users to {{ username }}
-  lineinfile:
+- name: Set ssh allowed users to {{ username }}
+  ansible.builtin.lineinfile:
     dest: "{{ ssh_sshd_config }}"
     regexp: ^#?AllowUsers
     line: AllowUsers {{ username }}

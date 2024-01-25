@@ -1,10 +1,10 @@
 ---
 - name: Install firewalld
-  apt:
+  ansible.builtin.apt:
     name: firewalld
     state: present
 
 - name: Start firewalld
-  service:
+  ansible.builtin.service:
     name: firewalld
     state: started

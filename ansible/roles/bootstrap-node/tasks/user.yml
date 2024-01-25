@@ -6,12 +6,12 @@
     gid: 1750
 
 - name: Make sure we have a 'wheel' group
-  group:
+  ansible.builtin.group:
     name: wheel
     state: present
 
 - name: Allow 'wheel' group to have passwordless sudo
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/sudoers
     state: present
     regexp: ^%wheel
@@ -20,8 +20,8 @@
   when: ansible_user == "root"
 
 - name: Add user to wheel group
-  user:
-    name: "{{username}}"
+  ansible.builtin.user:
+    name: "{{ username }}"
     groups:
       - wheel
       - docker
@@ -32,8 +32,8 @@
   when: ansible_user == "root"
 
 - name: Set authorized key for user
-  authorized_key:
-    user: "{{username}}"
+  ansible.posix.authorized_key:
+    user: "{{ username }}"
     state: present
-    key: "{{github_ssh_key_url}}"
+    key: "{{ github_ssh_key_url }}"
   when: github_ssh_key_url != None

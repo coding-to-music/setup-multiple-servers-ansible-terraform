@@ -6,4 +6,4 @@
     state: restarted
 
 - name: Main | Reboot
-  reboot:
+  ansible.builtin.reboot:

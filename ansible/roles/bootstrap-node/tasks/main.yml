@@ -1,14 +1,14 @@
 ---
 - name: Main Tasks
-  import_tasks: apt.yml
+  ansible.builtin.import_tasks: apt.yml
   tags:
     - apt
 
-- import_tasks: locale.yml
+- ansible.builtin.import_tasks: locale.yml
   tags:
     - locale
 
-- import_tasks: user.yml
+- ansible.builtin.import_tasks: user.yml
   tags:
     - user
 
@@ -16,18 +16,18 @@
 #   tags:
 #     - nodejs
 
-- import_tasks: ssh.yml
+- ansible.builtin.import_tasks: ssh.yml
   tags:
     - ssh
 
-- import_tasks: timezone.yml
+- ansible.builtin.import_tasks: timezone.yml
   tags:
     - timezone
 
-- import_tasks: hostname.yml
+- ansible.builtin.import_tasks: hostname.yml
   tags:
     - hostname
 
-- import_tasks: firewalld.yml
+- ansible.builtin.import_tasks: firewalld.yml
   tags:
     - firewalld
