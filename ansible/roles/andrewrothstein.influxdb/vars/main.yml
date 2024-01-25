@@ -1,12 +1,12 @@
 ---
 # vars file for ansible-influxdb
-influxdb_platform: '{{ influxdb_os }}_{{ influxdb_arch }}'
+influxdb_platform: "{{ influxdb_os }}_{{ influxdb_arch }}"
 influxdb_tgz: influxdb-{{ influxdb_ver }}_{{ influxdb_platform }}.tar.gz
-influxdb_checksum: '{{ influxdb_checksums[influxdb_ver][influxdb_platform] }}'
-influxdb_tgz_url: '{{ influxdb_mirror }}/{{ influxdb_tgz }}'
+influxdb_checksum: "{{ influxdb_checksums[influxdb_ver][influxdb_platform] }}"
+influxdb_tgz_url: "{{ influxdb_mirror }}/{{ influxdb_tgz }}"
 influxdb_name: influxdb-{{ influxdb_ver }}{{ influxdb_patch }}
 
-influxdb_install_dir: '{{ influxdb_install_parent_dir }}/{{ influxdb_name }}'
-influxdb_link_dir: '{{ influxdb_install_parent_dir  }}/influxdb'
+influxdb_install_dir: "{{ influxdb_install_parent_dir }}/{{ influxdb_name }}"
+influxdb_link_dir: "{{ influxdb_install_parent_dir  }}/influxdb"
 
-influxdb_conf_dir: '{{ influxdb_install_dir }}/etc/influxdb'
+influxdb_conf_dir: "{{ influxdb_install_dir }}/etc/influxdb"

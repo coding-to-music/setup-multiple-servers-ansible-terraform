@@ -20,8 +20,8 @@
 - name: disable X11 forwarding
   lineinfile:
     dest: "{{ ssh_sshd_config }}"
-    regexp: "^#?X11Forwarding"
-    line: "X11Forwarding no"
+    regexp: ^#?X11Forwarding
+    line: X11Forwarding no
     state: present
   notify:
     - restart sshd
@@ -54,8 +54,8 @@
 - name: add ssh banner info
   lineinfile:
     dest: "{{ ssh_sshd_config }}"
-    regexp: "^#?Banner"
-    line: "Banner /etc/issue.net"
+    regexp: ^#?Banner
+    line: Banner /etc/issue.net
     state: present
   notify:
     - restart sshd

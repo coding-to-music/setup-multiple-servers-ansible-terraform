@@ -1,13 +1,13 @@
 ---
 - name: Prepare
   hosts: all
-  gather_facts: False
+  gather_facts: false
   tasks:
     - name: apt-proxy
       copy:
-        content: "Acquire::http::Proxy \"{{ lookup('env', 'APT_PROXY') }}\"; Acquire::https::Proxy \"false\";"
+        content: Acquire::http::Proxy "{{ lookup('env', 'APT_PROXY') }}"; Acquire::https::Proxy "false";
         dest: /etc/apt/apt.conf.d/01proxy
-      failed_when: False
+      failed_when: false
 
     - name: create testuser
       user:

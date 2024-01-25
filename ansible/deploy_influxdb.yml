@@ -21,7 +21,7 @@
     - name: Start and enable InfluxDB service
       systemd:
         name: influxdb
-        enabled: yes
+        enabled: true
         state: started
 
     - name: Wait for InfluxDB to start

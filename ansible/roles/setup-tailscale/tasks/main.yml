@@ -1,6 +1,7 @@
+---
 - name: Update apt cache and upgrade
   apt:
-    update_cache: yes
+    update_cache: true
     upgrade: "yes"
 
 - name: Tailscale Signing Key
@@ -17,7 +18,7 @@
   apt:
     name: tailscale
     state: present
-    update_cache: yes
+    update_cache: true
   notify: enable tailscaled service
 
 - name: Check if Tailscale is connected

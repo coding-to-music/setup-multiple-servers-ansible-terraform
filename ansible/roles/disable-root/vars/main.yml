@@ -1,1 +1,2 @@
-ssh_sshd_config: "/etc/ssh/sshd_config"
+---
+ssh_sshd_config: /etc/ssh/sshd_config

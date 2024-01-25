@@ -1,16 +1,10 @@
+---
 # sudo apt-get install *
 - name: Install docker packages
   apt:
-    name:
-      [
-        "apt-transport-https",
-        "ca-certificates",
-        "curl",
-        "gnupg-agent",
-        "software-properties-common",
-      ]
+    name: [apt-transport-https, ca-certificates, curl, gnupg-agent, software-properties-common]
     state: present
-    update_cache: yes
+    update_cache: true
   tags:
     - docker
 
@@ -25,7 +19,7 @@
 # sudo apt-key fingerprint 0EBFCD88
 - name: Verify that we have the key with the fingerprint
   apt_key:
-    id: 0EBFCD88
+    id: "0EBFCD88"
     state: present
   tags:
     - docker
@@ -35,14 +29,14 @@
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
     state: present
-    update_cache: yes
+    update_cache: true
   tags:
     - docker
 
 # sudo apt-get update
 - name: Update apt packages
   apt:
-    update_cache: yes
+    update_cache: true
   tags:
     - docker
 
@@ -50,8 +44,8 @@
 - name: Install docker
   apt:
     state: present
-    update_cache: yes
-    name: ["docker-ce", "docker-ce-cli", "containerd.io"]
+    update_cache: true
+    name: [docker-ce, docker-ce-cli, containerd.io]
   notify: Start docker on boot
   tags:
     - docker
@@ -59,7 +53,7 @@
 # sudo groupadd docker
 - name: Create "docker" group
   group:
-    name: "docker"
+    name: docker
     state: present
   tags:
     - docker
@@ -68,17 +62,17 @@
 - name: Add remote user to "docker" group
   user:
     name: "{{username}}"
-    group: "docker"
-    append: yes
+    group: docker
+    append: true
   tags:
     - docker
 
 - name: Configure sane defaults for logging (docker daemon)
   template:
-    src: "daemon.json"
-    dest: "/etc/docker/daemon.json"
-    owner: "root"
-    group: "root"
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
     mode: "0644"
   notify: Restart Docker
   tags:

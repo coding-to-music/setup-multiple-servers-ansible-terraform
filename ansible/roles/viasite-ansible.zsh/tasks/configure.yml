@@ -1,11 +1,10 @@
 ---
-
 - name: Check zsh version
-  shell: "set -o pipefail; zsh --version | cut -d ' ' -f2"
+  shell: set -o pipefail; zsh --version | cut -d ' ' -f2
   args:
     executable: /bin/bash
   register: zsh_register_version
-  check_mode: no
+  check_mode: false
   changed_when: false
   tags: configure
 
@@ -23,11 +22,11 @@
   when: zsh_shared
 
 - name: Check commands exists
-  shell: "command -v {{ item.command }} || which {{ item.command }}"
+  shell: command -v {{ item.command }} || which {{ item.command }}
   with_items: "{{ zsh_antigen_bundles }}"
   failed_when: false
   changed_when: false
-  check_mode: no
+  check_mode: false
   when: item.command is defined
   register: zsh_register_commands_exists
 
@@ -44,7 +43,7 @@
   register: zsh_register_antigen_version
   changed_when: false
   failed_when: false
-  check_mode: no
+  check_mode: false
   tags: configure
 
 - name: Set zsh_antigen_installed_version variable
@@ -57,7 +56,7 @@
     dest: "{{ zsh_config }}"
     owner: "{{ zsh_user }}"
     group: "{{ zsh_user_group }}"
-    backup: yes
+    backup: true
 
 - name: Set zsh as default shell
   user:
@@ -68,8 +67,8 @@
 
 - name: Add skip_global_compinit for disable early compinit call in Ubuntu
   lineinfile:
-    regexp: "skip_global_compinit=1"
-    line: "skip_global_compinit=1"
+    regexp: skip_global_compinit=1
+    line: skip_global_compinit=1
     dest: /etc/zsh/zshenv
     state: present
   when: ansible_distribution == 'Ubuntu'

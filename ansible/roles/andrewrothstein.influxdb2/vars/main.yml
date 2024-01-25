@@ -1,6 +1,6 @@
 ---
 # vars file for influxdb2
-influxdb2_os: '{{ ansible_system | lower }}'
-influxdb2_arch: '{{ influxdb2_arch_map[ansible_architecture] }}'
-influxdb2_platform: '{{ influxdb2_os }}-{{ influxdb2_arch }}'
-influxdb2_fq_ver: '{{ influxdb2_ver.major }}.{{ influxdb2_ver.minor }}.{{ influxdb2_ver.patch }}'
+influxdb2_os: "{{ ansible_system | lower }}"
+influxdb2_arch: "{{ influxdb2_arch_map[ansible_architecture] }}"
+influxdb2_platform: "{{ influxdb2_os }}-{{ influxdb2_arch }}"
+influxdb2_fq_ver: "{{ influxdb2_ver.major }}.{{ influxdb2_ver.minor }}.{{ influxdb2_ver.patch }}"

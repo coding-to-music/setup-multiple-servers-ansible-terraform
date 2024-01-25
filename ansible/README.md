@@ -69,6 +69,48 @@ Output
 ansible-lint 6.22.2 using ansible-core:2.16.2 ansible-compat:4.1.11 ruamel-yaml:0.18.5 ruamel-yaml-clib:0.2.8
 ```
 
+## use ansible-lint to find errors
+
+```java
+ansible-lint *.yml
+```
+
+Output
+
+```java
+count tag                           profile    rule associated tags
+     4 jinja[spacing]                basic      formatting (warning)
+     1 no-free-form                  basic      syntax, risk
+     6 name[missing]                 basic      idiom
+     2 yaml[new-line-at-end-of-file] basic      formatting, yaml
+    16 yaml[truthy]                  basic      formatting, yaml
+    10 name[casing]                  moderate   idiom
+     1 risky-file-permissions        safety     unpredictability
+     1 no-changed-when               shared     command-shell, idempotency
+    45 fqcn[action-core]             production formatting
+     5 fqcn[action]                  production formatting
+     2 args[module]                             syntax, experimental (warning)
+
+Failed: 87 failure(s), 6 warning(s) on 18 files. Last profile that met the validation criteria was 'min'.
+```
+
+## use ansible-lint to fix errors
+
+```java
+ansible-lint --fix
+```
+
+Output
+
+```java
+Modified 50 files.
+                  Rule Violation Summary
+ count tag                    profile rule associated tags
+     5 syntax-check[specific] min     core, unskippable
+
+Failed: 5 failure(s), 0 warning(s) on 140 files.
+```
+
 ### Determine what version of Ubuntu is installed
 
 ```java

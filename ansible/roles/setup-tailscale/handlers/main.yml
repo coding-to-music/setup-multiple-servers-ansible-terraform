@@ -1,8 +1,9 @@
+---
 - name: enable tailscaled service
   service:
     name: tailscaled
     state: started
-    enabled: yes
+    enabled: true
 
 - name: Tailscale Status
   listen: Confirm Tailscale is Connected

@@ -1,8 +1,7 @@
 ---
-
 - name: Update package cache
   package:
-    update_cache: yes
+    update_cache: true
   when: ansible_os_family != 'Darwin'
 
 - name: Install zsh, git, wget
@@ -20,8 +19,8 @@
     repo: https://github.com/zsh-users/antigen.git
     dest: "{{ zsh_antigen_path }}/antigen"
     version: "{{ zsh_antigen_version }}"
-    force: yes
-  become: yes
+    force: true
+  become: true
   become_user: "{{ zsh_user }}"
   register: zsh_register_antigen_clone
 
@@ -29,9 +28,9 @@
   git:
     repo: https://github.com/iwfmp/mc-solarized-skin.git
     version: master
-    dest: "~{{ zsh_user }}/.mc/lib/mc-solarized"
-    force: yes
-  become: yes
+    dest: ~{{ zsh_user }}/.mc/lib/mc-solarized
+    force: true
+  become: true
   become_user: "{{ zsh_user }}"
   when: zsh_mc_solarized_skin and not zsh_shared
 
@@ -39,7 +38,7 @@
   command: which fzf
   changed_when: false
   failed_when: false
-  check_mode: no
+  check_mode: false
   register: zsh_register_fzf_command
 
 - name: Set zsh_fzf_path to /usr/local/bin
@@ -62,11 +61,11 @@
     state: directory
   when: not zsh_shared
 
-- name: "Download fzf to {{ zsh_fzf_path_absolute }}"
+- name: Download fzf to {{ zsh_fzf_path_absolute }}
   unarchive:
     src: "{{ zsh_fzf_url }}"
     dest: "{{ zsh_fzf_path_absolute }}"
-    remote_src: yes
+    remote_src: true
     creates: "{{ zsh_fzf_path_absolute }}/fzf"
   when: zsh_register_fzf_command.rc == 1
 
@@ -75,5 +74,5 @@
     name: "{{ zsh_antigen_path }}"
     owner: "{{ zsh_user }}"
     group: "{{ zsh_user_group }}"
-    recurse: yes
+    recurse: true
   changed_when: false

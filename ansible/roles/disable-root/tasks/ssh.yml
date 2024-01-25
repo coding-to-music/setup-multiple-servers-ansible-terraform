@@ -2,8 +2,8 @@
 - name: enable ssh strict mode
   lineinfile:
     dest: "{{ ssh_sshd_config }}"
-    regexp: "^#?StrictModes"
-    line: "StrictModes yes"
+    regexp: ^#?StrictModes
+    line: StrictModes yes
     state: present
   notify:
     - restart sshd
@@ -11,8 +11,8 @@
 - name: disable ssh remote root login
   lineinfile:
     dest: "{{ ssh_sshd_config }}"
-    regexp: "^#?PermitRootLogin"
-    line: "PermitRootLogin no"
+    regexp: ^#?PermitRootLogin
+    line: PermitRootLogin no
     state: present
   notify:
     - restart sshd
@@ -24,20 +24,20 @@
     line: "{{ item.line }}"
     state: present
   with_items:
-    - regexp: "^#?PasswordAuthentication"
-      line: "PasswordAuthentication no"
-    - regexp: "^#?ChallengeResponseAuthentication"
-      line: "ChallengeResponseAuthentication no"
-    - regexp: "^#?PermitEmptyPasswords"
-      line: "PermitEmptyPasswords no"
+    - regexp: ^#?PasswordAuthentication
+      line: PasswordAuthentication no
+    - regexp: ^#?ChallengeResponseAuthentication
+      line: ChallengeResponseAuthentication no
+    - regexp: ^#?PermitEmptyPasswords
+      line: PermitEmptyPasswords no
   notify:
     - restart sshd
 
 - name: set ssh allowed users to {{ username }}
   lineinfile:
     dest: "{{ ssh_sshd_config }}"
-    regexp: "^#?AllowUsers"
-    line: "AllowUsers {{ username }}"
+    regexp: ^#?AllowUsers
+    line: AllowUsers {{ username }}
   notify:
     - restart sshd
   when: username != None
