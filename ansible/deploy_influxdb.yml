@@ -1,6 +1,6 @@
 ---
 - name: Deploy InfluxDB
-  hosts: myhosts
+  hosts: all
   become: true
 
   tasks:
