@@ -17,14 +17,14 @@
 #   notify:
 #     - restart sshd
 
-- name: Disable X11 forwarding
-  ansible.builtin.lineinfile:
-    dest: "{{ ssh_sshd_config }}"
-    regexp: ^#?X11Forwarding
-    line: X11Forwarding no
-    state: present
-  notify:
-    - restart sshd
+# - name: Disable X11 forwarding
+#   ansible.builtin.lineinfile:
+#     dest: "{{ ssh_sshd_config }}"
+#     regexp: ^#?X11Forwarding
+#     line: X11Forwarding no
+#     state: present
+#   notify:
+#     - restart sshd
 
 # - name: disable ssh password login
 #   lineinfile:
