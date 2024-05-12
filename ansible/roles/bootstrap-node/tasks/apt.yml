@@ -16,12 +16,12 @@
       - htop
       - curl
       - jq
-      - fzf
       - python3-pip
       - python3-apt
       - gnupg2
       - gnupg-agent
       - net-tools
+      # - fzf
       # - python-apt
       # - python
 
