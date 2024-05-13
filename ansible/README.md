@@ -202,7 +202,7 @@ sudo apt-get install sshpass
    the `username` supplied in `inventory` has access to SSH.
 
 ```java
-ansible-playbook -i inventory playbook.yml --tag=bootstrap  --ask-pass
+ansible-playbook -i inventory.ini playbook.yml --tag=bootstrap  --ask-pass
 
 # if you want to run it a second time, omit the --ask_pass so that it will use he ssh keys.
 
