@@ -4,22 +4,25 @@
 
 ### Setup machine
 
-- [ ] Set time zone
+- [ ] Set time zone via `locale.yml`
 - [ ] Set hostname
-- [ ] Disable root login
+- [ ] disable ssh remote root login
 - [ ] Turn on firewall ufw
 - [ ] close ports by default
+- [ ] Run Ansible inventory
+- [ ]
+- [ ]
+- [ ] Install a Ubuntu desktop
+- [ ] Install web browser
 - [ ] Remote mount a drive
 - [ ] Setup drive rsync
-- [ ]
-- [ ]
-- [ ]
 
 ### Setup Users
 
 - [ ] create a user
 - [ ] Install ssh keys
 - [ ] give user sudo
+- [ ] Set sudo password
 - [ ] install .bashrc_aliases
 - [ ]
 - [ ]
@@ -36,13 +39,63 @@
 - [ ] InfluxDB
 - [ ] Grafana
 - [ ] Loki
-- [ ]
+- [ ] PostgreSQL
 - [ ]
 - [ ]
 
 Enable/start processes with `systemctl`
 
 ### Setup machine
+
+#### After creating or re-init the machine, ssh to it
+
+```bash
+ssh root@<ip address of server>
+```
+
+You may get this message:
+
+```bash
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+It is also possible that a host key has just been changed.
+The fingerprint for the ECDSA key sent by the remote host is
+SHA256:<longFingerprint>
+Please contact your system administrator.
+Add correct host key in /home/yourUser/.ssh/known_hosts to get rid of this message.
+Offending ECDSA key in /home/yourUser/.ssh/known_hosts:13
+  remove with:
+  ssh-keygen -f "/home/yourUser/.ssh/known_hosts" -R "<ip address of server>"
+ECDSA host key for <ip address of server> has changed and you have requested strict checking.
+Host key verification failed.
+```
+
+```bash
+ssh-keygen -f "/home/yourUser/.ssh/known_hosts" -R "<ip address of server>"
+```
+
+```bash
+# Host <ip address of server> found: line 13
+/home/yourUser/.ssh/known_hosts updated.
+Original contents retained as /home/yourUser/.ssh/known_hosts.old
+```
+
+```bash
+ssh root@<ip address of server>
+```
+
+Output
+
+```bash
+The authenticity of host '<ip address of server> (<ip address of server>)' can't be established.
+ECDSA key fingerprint is SHA256:<longFingerprint>.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '<ip address of server>' (ECDSA) to the list of known hosts.
+root@<ip address of server>'s password:
+```
 
 ## set up ip addresses of the inventory host servers
 
