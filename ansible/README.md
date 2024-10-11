@@ -23,7 +23,7 @@
 - [ ] Install ssh keys
 - [ ] give user sudo
 - [ ] Set sudo password
-- [ ] install .bashrc_aliases
+- [ ] install .bashrc & .bash_aliases
 - [ ]
 - [ ]
 - [ ]
@@ -33,7 +33,7 @@
 - [ ] Docker
 - [ ] Saltstack
 - [ ] Ansible
-- [ ] Node
+- [ ] nvm and node
 - [ ] Setup git
 - [ ] Telegraf Metrics Collection
 - [ ] InfluxDB
@@ -124,6 +124,7 @@ grep -Po '^sudo.+:\K.*$' /etc/group
 
 groups <username>
 
+cd ansible (or wherever the inventory file is located)
 ansible-inventory -i inventory --list
 
 ansible-inventory -i inventory.ini --list
