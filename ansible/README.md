@@ -1,5 +1,47 @@
 # Ansible Playbook for setting up Hydra Home Server
 
+## Setup cloud VM's with
+
+### Setup machine
+
+- [x] Set time zone
+- [x] Set hostname
+- [x] Disable root login
+- [x] Turn on firewall ufw
+- [x] close ports by default
+- [x] Remote mount a drive
+- [x] Setup drive rsync
+- [x]
+- [x]
+- [x]
+
+### Setup Users
+
+- [x] create a user
+- [x] Install ssh keys
+- [x] give user sudo
+- [x] install .bashrc_aliases
+- [x]
+- [x]
+- [x]
+
+### Install software
+
+- [x] Docker
+- [x] Saltstack
+- [x] Ansible
+- [x] Node
+- [x] Setup git
+- [x] Telegraf Metrics Collection
+- [x] InfluxDB
+- [x] Grafana
+- [x] Loki
+- [x]
+- [x]
+- [x]
+
+Enable/start processes with `systemctl`
+
 ## set up ip addresses of the inventory host servers
 
 https://docs.ansible.com/ansible/latest/getting_started/get_started_inventory.html
