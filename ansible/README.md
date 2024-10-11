@@ -4,43 +4,45 @@
 
 ### Setup machine
 
-- [x] Set time zone
-- [x] Set hostname
-- [x] Disable root login
-- [x] Turn on firewall ufw
-- [x] close ports by default
-- [x] Remote mount a drive
-- [x] Setup drive rsync
-- [x]
-- [x]
-- [x]
+- [ ] Set time zone
+- [ ] Set hostname
+- [ ] Disable root login
+- [ ] Turn on firewall ufw
+- [ ] close ports by default
+- [ ] Remote mount a drive
+- [ ] Setup drive rsync
+- [ ]
+- [ ]
+- [ ]
 
 ### Setup Users
 
-- [x] create a user
-- [x] Install ssh keys
-- [x] give user sudo
-- [x] install .bashrc_aliases
-- [x]
-- [x]
-- [x]
+- [ ] create a user
+- [ ] Install ssh keys
+- [ ] give user sudo
+- [ ] install .bashrc_aliases
+- [ ]
+- [ ]
+- [ ]
 
 ### Install software
 
-- [x] Docker
-- [x] Saltstack
-- [x] Ansible
-- [x] Node
-- [x] Setup git
-- [x] Telegraf Metrics Collection
-- [x] InfluxDB
-- [x] Grafana
-- [x] Loki
-- [x]
-- [x]
-- [x]
+- [ ] Docker
+- [ ] Saltstack
+- [ ] Ansible
+- [ ] Node
+- [ ] Setup git
+- [ ] Telegraf Metrics Collection
+- [ ] InfluxDB
+- [ ] Grafana
+- [ ] Loki
+- [ ]
+- [ ]
+- [ ]
 
 Enable/start processes with `systemctl`
+
+### Setup machine
 
 ## set up ip addresses of the inventory host servers
 
