@@ -1,0 +1,10 @@
+---
+- name: Install ufw
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+
+- name: Start ufw
+  ansible.builtin.service:
+    name: ufw
+    state: started

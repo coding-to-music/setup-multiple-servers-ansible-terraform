@@ -27,7 +27,10 @@
 - ansible.builtin.import_tasks: hostname.yml
   tags:
     - hostname
+# - ansible.builtin.import_tasks: firewalld.yml
+#   tags:
+#     - firewalld
 
-- ansible.builtin.import_tasks: firewalld.yml
-  tags:
-    - firewalld
+# - ansible.builtin.import_tasks: ufw.yml
+#   tags:
+#     - ufw

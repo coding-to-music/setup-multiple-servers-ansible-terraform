@@ -51,18 +51,36 @@
 #     - restart sshd
 #   when: username != None
 
-- name: Add ssh banner info
-  ansible.builtin.lineinfile:
-    dest: "{{ ssh_sshd_config }}"
-    regexp: ^#?Banner
-    line: Banner /etc/issue.net
-    state: present
-  notify:
-    - restart sshd
+# - name: Add ssh banner info
+#   ansible.builtin.lineinfile:
+#     dest: "{{ ssh_sshd_config }}"
+#     regexp: ^#?Banner
+#     line: Banner /etc/issue.net
+#     state: present
+#   notify:
+#     - restart sshd
 
-- name: Update ssh banner
-  ansible.builtin.template:
-    src: ssh-banner.j2
-    dest: /etc/issue.net
-  notify:
-    - restart sshd
+# - name: Update ssh banner
+#   ansible.builtin.template:
+#     src: ssh-banner.j2
+#     dest: /etc/issue.net
+#   notify:
+#     - restart sshd
+
+# - name: Update SSH banner
+#   hosts: all
+#   become: true
+#   become_method: sudo
+#   tasks:
+#     - name: Update ssh banner
+#       ansible.builtin.template:
+#         src: ssh-banner.j2
+#         dest: /etc/issue.net
+#       notify:
+#         - restart sshd
+
+#   handlers:
+#     - name: restart sshd
+#       ansible.builtin.service:
+#         name: ssh
+#         state: restarted
