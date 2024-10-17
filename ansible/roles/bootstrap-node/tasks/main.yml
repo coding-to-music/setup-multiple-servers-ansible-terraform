@@ -31,6 +31,6 @@
 #   tags:
 #     - firewalld
 
-# - ansible.builtin.import_tasks: ufw.yml
-#   tags:
-#     - ufw
+- ansible.builtin.import_tasks: ufw.yml
+  tags:
+    - ufw

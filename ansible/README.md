@@ -4,12 +4,12 @@
 
 ### Setup machine
 
-- [ ] Set time zone via `locale.yml`
+- [x] Set time zone via `locale.yml`
 - [ ] Set hostname
-- [ ] disable ssh remote root login
-- [ ] Turn on firewall ufw
+- [x] disable ssh remote root login
+- [x] Turn on firewall ufw
 - [ ] close ports by default
-- [ ] Run Ansible inventory
+- [x] Run Ansible inventory
 - [ ]
 - [ ]
 - [ ] Install a Ubuntu desktop
@@ -19,10 +19,10 @@
 
 ### Setup Users
 
-- [ ] create a user
-- [ ] Install ssh keys
-- [ ] give user sudo
-- [ ] Set sudo password
+- [x] create a user
+- [x] Install ssh keys
+- [x] give user sudo
+- [x] Set sudo password
 - [ ] install .bashrc & .bash_aliases
 - [ ]
 - [ ]
@@ -30,7 +30,7 @@
 
 ### Install software
 
-- [ ] Docker
+- [x] Docker
 - [ ] Saltstack
 - [ ] Ansible
 - [ ] nvm and node
@@ -302,6 +302,7 @@ sudo apt-get install sshpass
 ```java
 sudo apt-get install openssh-server
 
+# run on each new vm
 scp user@home_vm_ip:~/.ssh/id_rsa ~/.ssh/id_rsa
 
 ansible-playbook -i inventory playbook.yml --tag=bootstrap  --ask-pass
@@ -319,6 +320,8 @@ ansible-playbook -i inventory playbook.yml --tag=bootstrap
 ansible-playbook -i inventory playbook.yml --tag=disable-root  --ask-pass
 
 ansible-playbook -i inventory playbook.yml --tag=disable-root
+
+ansible-playbook -i inventory.ini playbook.yml --tag=disable-root
 ```
 
 Now going forward in the next ansible steps you must use the username user you set in the inventory vars section (it will have sudo capability)
