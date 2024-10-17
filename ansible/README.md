@@ -10,7 +10,7 @@
 - [x] Turn on firewall ufw
 - [ ] close ports by default
 - [x] Run Ansible inventory
-- [ ]
+- [ ] see what ports are open
 - [ ]
 - [ ] Install a Ubuntu desktop
 - [ ] Install web browser
