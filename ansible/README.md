@@ -136,6 +136,14 @@ ansible myhosts -m ping -i inventory.ini --ask-pass
 ansible myhosts -m ping -i inventory.ini -u root --ask-pass
 
 ansible myhosts -m ping -i inventory.ini --ask-pass
+```
+
+## Use ansible to install Salt Minion on all the hosts
+
+```java
+ansible-playbook -i inventory.ini install_salt_minion.yml
+
+ansible-playbook -i inventory install_salt_minion.yml
 
 ```
 
