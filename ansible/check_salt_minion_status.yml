@@ -1,0 +1,7 @@
+---
+- name: Check the status of Salt Minion on all hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: Get Salt Minion status
+      command: sudo systemctl status salt-minion

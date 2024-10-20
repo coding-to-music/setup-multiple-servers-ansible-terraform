@@ -144,7 +144,18 @@ ansible myhosts -m ping -i inventory.ini --ask-pass
 ansible-playbook -i inventory.ini install_salt_minion.yml
 
 ansible-playbook -i inventory install_salt_minion.yml
+```
 
+Verify salt is running on all hosts
+
+```java
+sudo systemctl status salt-minion
+```
+
+or via ansbible playbook
+
+```java
+ansible-playbook -i inventory.ini check_salt_minion_status.yml
 ```
 
 ### install ansible-lint
