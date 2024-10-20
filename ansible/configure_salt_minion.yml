@@ -1,0 +1,22 @@
+---
+- name: Configure Salt Minion with master address
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure Salt Minion is installed
+      apt:
+        name: salt-minion
+        state: present
+
+    - name: Configure Salt Minion to connect to master
+      lineinfile:
+        path: /etc/salt/minion
+        regexp: "^#master:"
+        line: "master: {{ master_address }}"
+        state: present
+
+    - name: Restart Salt Minion service
+      service:
+        name: salt-minion
+        state: restarted
+        enabled: yes

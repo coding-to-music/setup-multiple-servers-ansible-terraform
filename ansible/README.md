@@ -158,6 +158,12 @@ or via ansbible playbook
 ansible-playbook -i inventory.ini check_salt_minion_status.yml
 ```
 
+## Configure salt minions to know the address of the master
+
+```java
+ansible-playbook -i inventory.ini configure_salt_minion.yml
+```
+
 ### install ansible-lint
 
 https://www.redhat.com/sysadmin/ansible-lint-YAML
